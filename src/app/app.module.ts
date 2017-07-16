@@ -1,16 +1,19 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+import { DbService } from './db.service'
 
-import { ROUTES } from './app.routes';
+import { routing } from "./app.routes";
 
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
+// import {enableProdMode} from '@angular/core';
+// enableProdMode();
 
 @NgModule({
   declarations: [
@@ -20,11 +23,13 @@ import { CallbackComponent } from './callback/callback.component';
   ],
   imports: [
     BrowserModule,
+    routing,
     FormsModule,
     HttpModule,
-    RouterModule.forRoot(ROUTES, { useHash: true })
+    ReactiveFormsModule
+   
   ],
-  providers: [AuthService],
+  providers: [AuthService,DbService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
