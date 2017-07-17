@@ -24,7 +24,7 @@
           Log In
         </button>
         <button class="btn btn-margin" *ngIf="auth.isAuthenticated()" (click)="auth.logout()">
-          Log Out
+          {{ userToken }} Log Out
         </button>
       </ul>
     </div>
@@ -32,8 +32,6 @@
 </nav>
 
 <div class="container">
-
-
   <router-outlet></router-outlet>
 
   <div class="container text-center">
