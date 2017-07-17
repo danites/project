@@ -23,6 +23,8 @@ export class HomeComponent implements OnInit {
 	private description = new FormControl("", Validators.required);
 	private category = new FormControl("", Validators.required);
 	private location = new FormControl("", Validators.required);
+	private prefered_date = new FormControl("", Validators.required);
+	private prefered_time = new FormControl("", Validators.required);
 
 	private infoMsg = { body: "", type: "info"};
 
@@ -41,7 +43,9 @@ export class HomeComponent implements OnInit {
 				'city': ['', [Validators.required]],
 				'state': ['', [Validators.required]],
 				'zip': ['', [Validators.required]]
-			}),			
+			}),	
+			prefered_date: this.prefered_date,
+			prefered_time: this.prefered_time,		
 		});
 	}
 

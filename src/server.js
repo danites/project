@@ -2,6 +2,8 @@ var express = require('express');
 var morgan = require('morgan'); // logger
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+// var jobs = require('./routes/jobs');
+// var users = require('./routes/users');
 
 var app = express();
 app.set('port', (4267));
@@ -18,6 +20,9 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(morgan('dev'));
+
+// app.use('/jobs', users);
+// app.use('/users', users);
 
 //Below is Enabling CORS
 app.use(function (req, res, next) {
