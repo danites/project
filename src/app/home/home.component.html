@@ -22,8 +22,7 @@
 					<th>City</th>
 					<th>State</th>
 					<th>Zip</th>
-					<th>Prefered Date</th>
-					<th>Location</th>
+					<!-- <th>Prefered Date</th> -->
 					<th>Description</th>					
 				</tr>
 			</thead>
@@ -39,8 +38,7 @@
 					 <td>{{job.location.city}}</td>
 					<td>{{job.location.state}}</td>
 					<td>{{job.location.zip}}</td> 
-					<td>{{job.prefered_date}}</td>
-
+					<!-- <td>{{job.prefered_date}}</td> -->
 					<td>{{job.description}}</td>					
 					<td>
 						<button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>
@@ -66,7 +64,7 @@
 							<div class="form-group">
 								<input class="form-control" type="number" name="zip" [(ngModel)]="job.location.zip" placeholder="Zip"  required>
 							</div>		
-							<div class="form-group">
+							<!-- <div class="form-group">
 								<label for="dueDate">Due Date/Time</label>
 												<div class='input-group date' id='datetimepicker1'>
 													<input type='text' name="prefered_date" id="prefered_date" [(ngModel)]="prefered_date" required class="form-control" />
@@ -74,7 +72,7 @@
 													<span class="glyphicon glyphicon-calendar"></span>
 												</span>
 												</div>
-							</div>	
+							</div>	 -->
 																	
 							<div class="form-group">
 								<textarea class="form-control" rows="5" name="description" [(ngModel)]="job.description" placeholder="description" required></textarea>
@@ -115,9 +113,9 @@
 					<input class="form-control" type="number" name="zip" formControlName="zip" placeholder="zip" >
 				</div>		
 			</div>		
-			<div class="form-group">
+			<!-- <div class="form-group">
 					<input class="form-control" type="text" name="prefered_date" formControlName="prefered_date" placeholder="prefered_date" >
-				</div>						
+				</div>						 -->
 			<div class="form-group">
 				<textarea class="form-control" rows="5" name="description" formControlName="description" placeholder="description"></textarea>
 			</div>											

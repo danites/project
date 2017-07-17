@@ -23,8 +23,8 @@ export class HomeComponent implements OnInit {
 	private description = new FormControl("", Validators.required);
 	private category = new FormControl("", Validators.required);
 	private location = new FormControl("", Validators.required);
-	private prefered_date = new FormControl("", Validators.required);
-	private prefered_time = new FormControl("", Validators.required);
+	// private prefered_date = new FormControl("", Validators.required);
+	// private prefered_time = new FormControl("", Validators.required);
 
 	private infoMsg = { body: "", type: "info"};
 
@@ -44,8 +44,8 @@ export class HomeComponent implements OnInit {
 				'state': ['', [Validators.required]],
 				'zip': ['', [Validators.required]]
 			}),	
-			prefered_date: this.prefered_date,
-			prefered_time: this.prefered_time,		
+			// prefered_date: this.prefered_date,
+			// prefered_time: this.prefered_time,		
 		});
 	}
 
@@ -58,9 +58,13 @@ export class HomeComponent implements OnInit {
 	}
 
 	addJob() {
-		this.jobService.addJob(this.addJobForm.value).subscribe(
+		var job = this.addJobForm.value;
+		job["prefered_date"] = Date.now();
+		this.jobService.addJob(job).subscribe(
 			res => {
 				var newJob = res.json();
+				// console.log(newJob);
+				// console.log(this.addJobForm.value);
 				this.jobs.push(newJob);
 				this.addJobForm.reset();
 				this.sendInfoMsg("item added successfully.", "success");

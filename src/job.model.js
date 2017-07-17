@@ -11,7 +11,10 @@ var jobSchema = mongoose.Schema({
         zip:Number,
         long:Number,
         lat:Number
-    }
+    },
+    // prefered_date : { type : Date, default: Date.now },
+    prefered_date : { type : Date},
+    
 });
 
 var Job = mongoose.model('job', jobSchema);
