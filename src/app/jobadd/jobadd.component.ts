@@ -22,8 +22,9 @@ export class JobaddComponent implements OnInit {
   private name = new FormControl("", Validators.required);
   private description = new FormControl("", Validators.required);
   private category = new FormControl("", Validators.required);
+  private hourly_fee = new FormControl("", Validators.required);
+  private preferred_date = new FormControl("", Validators.required);
   // private location = new FormControl("", Validators.required);
-  // private prefered_date = new FormControl("", Validators.required);
   // private prefered_time = new FormControl("", Validators.required);
 
   private infoMsg = { body: "", type: "info" };
@@ -38,14 +39,9 @@ export class JobaddComponent implements OnInit {
     this.addJobForm = this.formBuilder.group({
       name: this.name,
       description: this.description,
-      category: this.category
-      // location: this.formBuilder.group({
-      //   'city': ['', [Validators.required]],
-      //   'state': ['', [Validators.required]],
-      //   'zip': ['', [Validators.required]]
-      // }),
-      // prefered_date: this.prefered_date,
-      // prefered_time: this.prefered_time,		
+      category: this.category,
+      preferred_date: this.preferred_date,
+      hourly_fee: this.hourly_fee
     });
   }
 
@@ -59,7 +55,7 @@ export class JobaddComponent implements OnInit {
 
   addJob() {
     var job = this.addJobForm.value;
-    job["prefered_date"] = Date.now();
+    // job["preferred_date"] = Date.now();
     this.jobService.addJob(job).subscribe(
       res => {
         var newJob = res.json();

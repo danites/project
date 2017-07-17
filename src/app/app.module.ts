@@ -15,6 +15,7 @@ import { CallbackComponent } from './callback/callback.component';
 import { ProfileComponent } from './profile/profile.component';
 import { JoblistComponent } from './joblist/joblist.component';
 import { JobaddComponent } from './jobadd/jobadd.component';
+import { JobeditComponent } from './jobedit/jobedit.component';
 // import {enableProdMode} from '@angular/core';
 // enableProdMode();
 
@@ -25,7 +26,8 @@ import { JobaddComponent } from './jobadd/jobadd.component';
     CallbackComponent,
     ProfileComponent,
     JoblistComponent,
-    JobaddComponent
+    JobaddComponent,
+    JobeditComponent
   ],
   imports: [
     BrowserModule,

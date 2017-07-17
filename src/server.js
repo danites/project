@@ -64,17 +64,51 @@ db.once('open', function() {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:1 });
+        .sort({ prefered_date:-1 });
+    });
+
+    // select all Sorted by pref Date, only from today to future
+    app.get('/jobstoday', function(req, res) {
+        Job.find({"prefered_date": {"$gte": Date.now()}}, function(err, docs) {
+            if(err) return console.error(err);
+            res.json(docs);
+        })
+        .sort({ prefered_date:-1 });
     });
 
     // select all Sorted by pref Date, limit 10
-    app.get('/jobssortlimit10', function(req, res) {
+    app.get('/jobslimit10', function(req, res) {
         console.log('get op:'+req);
         Job.find({}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:1 })
+        .sort({ prefered_date:-1 })
+        .limit(10);
+    });
+
+    // select all Sorted by pref Date, limit 10, only from today to future
+    app.get('/jobstodaylimit10', function(req, res) {
+        console.log('get op:'+req);
+        Job.find({"prefered_date": {"$gte": Date.now()}}, function(err, docs) {
+            if(err) return console.error(err);
+            res.json(docs);
+        })
+        .sort({ prefered_date:-1 })
+        .limit(10);
+    });
+
+    // select all Sorted by pref Date, limit 10, only from today to future, nearest on Map
+    app.get('/jobstodaylimit10', function(req, res) {
+        var coords = [];  
+        coords[0] = req.query.longitude || 0;  
+        coords[1] = req.query.latitude || 0; 
+          console.log(this.location);
+        Job.find({"prefered_date": {"$gte": Date.now()}}, function(err, docs) {
+            if(err) return console.error(err);
+            res.json(docs);
+        })
+        .sort({ prefered_date:-1 })
         .limit(10);
     });
 
@@ -109,12 +143,28 @@ db.once('open', function() {
 
     // Search filter
     app.get('/jobsearch', function(req, res) {
-        var id = req.query
-        Job.find({_id: req.params.id}, function(err, docs) {
+        var query = req.query;
+        console.log("Query is:"+query.category);
+        var searchTerm={};
+        if(query.category){
+            searchTerm['category']=query.category;
+        }
+        if(query.locationlong){
+            searchTerm['location.long']=query.locationlong;
+        }
+        if(query.locationlat){
+            searchTerm['location.long']=query.locationlat;
+        }        
+        if(query.hourly_fee){
+            searchTerm['hourly_fee']={"$gte": query.hourly_fee};
+        }
+
+        console.log(searchTerm);
+        Job.find(searchTerm, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:1 });        
+        .sort({ prefered_date:-1 });        
     });
     
     // update by id
