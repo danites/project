@@ -1,0 +1,95 @@
+<!-- <div class="card" *ngIf="!isEditing">
+  <h5 class="card-header">Add new job</h5>
+  <div class="card-block">
+    <form class="form-inline" [formGroup]="addJobForm" (ngSubmit)="addJob()" style="text-align:center">
+      <div class="form-group">
+        <input class="form-control" type="text" name="name" formControlName="name" placeholder="Name">
+      </div>
+      <div class="form-group">
+        <input class="form-control" type="text" name="category" formControlName="category" placeholder="category">
+      </div>
+      <div formGroupName="location">
+        <div class="form-group">
+          <input class="form-control" type="text" name="city" formControlName="city" placeholder="city">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="state" formControlName="state" placeholder="state">
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="number" name="zip" formControlName="zip" placeholder="zip">
+        </div>
+      </div>
+      <!-- <div class="form-group">
+					<input class="form-control" type="text" name="prefered_date" formControlName="prefered_date" placeholder="prefered_date" >
+				</div>						 -->
+<!-- <div class="form-group">
+        <textarea class="form-control" rows="5" name="description" formControlName="description" placeholder="description"></textarea>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid"><i class="fa fa-floppy-o"></i> Add</button>
+    </form>
+  </div>
+
+</div> -->
+
+
+<div class="card" *ngIf="!isEditing">
+  <form class="" [formGroup]="addJobForm" (ngSubmit)="addJob()">
+    <div class="container">
+      <div class="row">
+        <div class="form-group col-md-12 bg-primary row-header">
+          <label class="control-label" for="billinginformation">JOB ADD</label>
+        </div>
+
+        <div class="shipping-info">
+          <div class="form-group col-md-6">
+            <span class="required-lbl">* </span><label class="control-label" for="name">Job Title</label>
+            <div class="controls">
+              <input id="name" name="name" type="text" placeholder="" class="form-control" required="">
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <span class="required-lbl">* </span><label class="control-label" for="category">Job Category</label>
+            <div class="controls">
+              <input id="category" name="category" type="text" placeholder="" class="form-control" required="">
+            </div>
+          </div>
+
+          <div class="form-group col-md-6">
+            <label class="control-label" for="shippingaddress2">Description</label>
+            <div class="controls">
+              <textarea class="form-control" rows="3" name="description" formControlName="description" placeholder="description"></textarea>
+            </div>
+          </div>
+
+          <div class="form-group col-md-3">
+            <span class="required-lbl">* </span><label class="control-label" for="shippingcity">Prefered Date</label>
+            <div class="controls">
+              <input id="shippingcity" name="preferred_date" type="text" placeholder="mm/dd/yyyy" class="form-control" required="">
+            </div>
+          </div>
+
+          <div class="form-group col-md-3">
+            <span class="required-lbl">* </span><label class="control-label" for="preferred_time">Prefered Time</label>
+            <div class="controls">
+              <input id="shippingcity" name="preferred_time" type="text" placeholder="hh:mm" class="form-control" required="">
+            </div>
+          </div>
+
+
+          <hr>
+          <div class="form-group col-md-12">
+            <div class="control-group confirm-btn">
+              <label class="control-label" for="placeorderbtn"></label>
+              <div class="controls">
+                <!-- <button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid">Add Post</button> -->
+                <button class="btn btn-primary" type="submit">Add Post</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

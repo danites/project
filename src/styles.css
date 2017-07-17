@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 body {
   padding-top: 70px;
+  min-height: 700px;
 }
 
 .btn-margin {
@@ -15,12 +16,19 @@ body {
     border-radius: 50%;
     display: block;
     font-size: 36px;
-    height: 80px;
-    line-height: 80px;
+     height: 250px; 
+    /* line-height: 80px; */
     text-align: center;
     margin: 1rem auto;
-    width: 80px;
-    transition: all 0.5s ease 0s;
+    width: 250px; 
+    padding: 10px;
+    transition: all 0.5s ease 0s;    
+    background-color: #e7e7e7;
+}
+
+.fb-icon img {
+  width: 150px;
+  vertical-align: super; 
 }
 
 .divider {
@@ -28,8 +36,23 @@ body {
     margin: 20px auto 15px;
     position: relative;
     height: 1px;
+    border-bottom: 1px solid #ddd;
 }
 
 .text-uppercase {
     text-transform: uppercase;
+}
+
+th, .table-info > td {
+    background-color: #d9edf7;
+}
+
+.row-header {
+    display: inline;
+    padding: 10px 10px 5px 10px;
+    border-radius: 5px;
+}
+
+.required-lbl{
+    color: red;
 }

@@ -13,6 +13,8 @@ import { routing } from "./app.routes";
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
 import { ProfileComponent } from './profile/profile.component';
+import { JoblistComponent } from './joblist/joblist.component';
+import { JobaddComponent } from './jobadd/jobadd.component';
 // import {enableProdMode} from '@angular/core';
 // enableProdMode();
 
@@ -21,7 +23,9 @@ import { ProfileComponent } from './profile/profile.component';
     AppComponent,
     HomeComponent,
     CallbackComponent,
-    ProfileComponent
+    ProfileComponent,
+    JoblistComponent,
+    JobaddComponent
   ],
   imports: [
     BrowserModule,
