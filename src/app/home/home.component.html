@@ -1,127 +1,41 @@
-<h4 *ngIf="auth.isAuthenticated()">
-  You are logged in!
-</h4>
-<h4 *ngIf="!auth.isAuthenticated()">
-  You are not logged in! Please <a (click)="auth.login()">Log In</a> to continue.
-</h4>
-<div class="card" *ngIf="isLoading">
-	<h5 class="card-header">Loading...</h5>
-	<div class="card-block text-xs-center">
-		<i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+<h4 *ngIf="auth.isAuthenticated()" class="text-center">
+	<div class="alert alert-success" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> You are logged in!
 	</div>
-</div>
+</h4>
+<h4 *ngIf="!auth.isAuthenticated()" class="text-center">
+	<div class="alert alert-warning" role="alert">
+		<span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>You are not logged in! Please <a (click)="auth.login()">Log In</a>		to continue.
+	</div>
 
-<div class="card" *ngIf="!isLoading">
-	<h5 class="card-header">Current jobs ({{jobs.length}})</h5>
-	<div class="card-block">
-		<table class="table table-bordered table-striped">
-			<thead class="thead-default">
-				<tr>
-					<th>Name</th>
-					<th>Category</th>
-					<th>City</th>
-					<th>State</th>
-					<th>Zip</th>
-					<!-- <th>Prefered Date</th> -->
-					<th>Description</th>					
-				</tr>
-			</thead>
-			<tbody *ngIf="jobs.length === 0">
-				<tr>
-					<td colspan="4">There are no jobs in the DB. Add a new job below.</td>
-				</tr>	
-			</tbody>
-			<tbody *ngIf="!isEditing">
-				<tr *ngFor="let job of jobs">
-					<td>{{job.name}}</td>
-					<td>{{job.category}}</td>
-					 <td>{{job.location.city}}</td>
-					<td>{{job.location.state}}</td>
-					<td>{{job.location.zip}}</td> 
-					<!-- <td>{{job.prefered_date}}</td> -->
-					<td>{{job.description}}</td>					
-					<td>
-						<button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>
-					</td>
-				</tr>	
-			</tbody>
-			<tbody *ngIf="isEditing">
-				<tr>
-					<td colspan="4">
-						<form class="form-inline" #form="ngForm" (ngSubmit)="editJob(job)" style="display:inline">
-							<div class="form-group">
-							    <input class="form-control" type="text" name="name" [(ngModel)]="job.name" placeholder="Name" required>
-							</div>
-							<div class="form-group">
-								<input class="form-control" type="text" name="category" [(ngModel)]="job.category" placeholder="Category" required>
-							</div>
-							<div class="form-group">
-								<input class="form-control" type="text" name="city" [(ngModel)]="job.location.city" placeholder="City"  required>
-							</div>	
-							<div class="form-group">
-								<input class="form-control" type="text" name="state" [(ngModel)]="job.location.state" placeholder="State"  required>
-							</div>		
-							<div class="form-group">
-								<input class="form-control" type="number" name="zip" [(ngModel)]="job.location.zip" placeholder="Zip"  required>
-							</div>		
-							<!-- <div class="form-group">
-								<label for="dueDate">Due Date/Time</label>
-												<div class='input-group date' id='datetimepicker1'>
-													<input type='text' name="prefered_date" id="prefered_date" [(ngModel)]="prefered_date" required class="form-control" />
-													<span class="input-group-addon">
-													<span class="glyphicon glyphicon-calendar"></span>
-												</span>
-												</div>
-							</div>	 -->
-																	
-							<div class="form-group">
-								<textarea class="form-control" rows="5" name="description" [(ngModel)]="job.description" placeholder="description" required></textarea>
-							</div>																										
-							<button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
-						</form>
-						<button class="btn btn-sm btn-warning" (click)="cancelEditing()"><i class="fa fa-times"></i> Cancel</button>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
-			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-				<span aria-hidden="true">&times;</span>
-			</button>
-			<strong>Message:</strong> {{infoMsg.body}}
+</h4>
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-8 col-md-offset-2 text-center">
+			<h2 class="text-uppercase">Who are you?</h2>
+			<div class="divider"></div>
+		</div>
+		<div class="col-md-offset-2 col-lg-4 col-md-4">
+			<div class="text-center feature-block">
+				<span class="fb-icon">
+                <img src="../assets/employer.png" alt="employer" >
+                </span>
+				<h4 class="color-danger">
+					<button type="button" class="btn btn-lg">EMPLOYER</button>
+				</h4>
+			</div>
+		</div>
+
+		<div class="col-lg-3 col-md-3">
+			<div class="text-center feature-block">
+				<span class="fb-icon">
+                      <img src="../assets/seeker.png" alt="seeker" >
+                </span>
+				<h4 class="color-success">
+					<button type="button" class="btn btn-lg">SEEKER</button>
+				</h4>
+			</div>
 		</div>
 	</div>
 </div>
-<div class="card" *ngIf="!isEditing">
-	<h5 class="card-header">Add new job</h5>
-	<div class="card-block">
-		<form class="form-inline" [formGroup]="addJobForm" (ngSubmit)="addJob()" style="text-align:center">
-			<div class="form-group">
-			    <input class="form-control" type="text" name="name" formControlName="name" placeholder="Name">
-			</div>
-			<div class="form-group">
-				<input class="form-control" type="text" name="category" formControlName="category" placeholder="category" >
-			</div>
-			<div formGroupName="location">
-				<div class="form-group">
-					<input class="form-control" type="text" name="city" formControlName="city" placeholder="city" >
-				</div>	
-				<div class="form-group">
-					<input class="form-control" type="text" name="state" formControlName="state" placeholder="state" >
-				</div>			
-				<div class="form-group">
-					<input class="form-control" type="number" name="zip" formControlName="zip" placeholder="zip" >
-				</div>		
-			</div>		
-			<!-- <div class="form-group">
-					<input class="form-control" type="text" name="prefered_date" formControlName="prefered_date" placeholder="prefered_date" >
-				</div>						 -->
-			<div class="form-group">
-				<textarea class="form-control" rows="5" name="description" formControlName="description" placeholder="description"></textarea>
-			</div>											
-			<button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid"><i class="fa fa-floppy-o"></i> Add</button>
-		</form>
-	</div>
-
-</div>
-
