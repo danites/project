@@ -20,8 +20,9 @@ export class HomeComponent implements OnInit {
 
 	private addJobForm: FormGroup;
 	private name = new FormControl("", Validators.required);
-	private age = new FormControl("", Validators.required);
-	private weight = new FormControl("", Validators.required);
+	private description = new FormControl("", Validators.required);
+	private category = new FormControl("", Validators.required);
+	// private location = new FormControl("", Validators.required);
 
 	private infoMsg = { body: "", type: "info"};
 
@@ -34,8 +35,13 @@ export class HomeComponent implements OnInit {
 
 		this.addJobForm = this.formBuilder.group({
 			name: this.name,
-			age: this.age,
-			weight: this.weight
+			description: this.description,
+			category: this.category,
+			// location: this.formBuilder.group({
+			// 	'city': ['', [Validators.required]],
+			// 	'state': ['', [Validators.required]],
+			// 	'zip': ['', [Validators.required]]
+			// }),			
 		});
 	}
 
