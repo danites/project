@@ -33,9 +33,9 @@
 					<td>{{job.name}}</td>
 					<td>{{job.description}}</td>
 					<td>{{job.category}}</td>
-					<!-- <td>{{job.location.city}}</td>
+					 <td>{{job.location.city}}</td>
 					<td>{{job.location.state}}</td>
-					<td>{{job.location.zip}}</td> -->
+					<td>{{job.location.zip}}</td> 
 					<td>
 						<button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Edit</button> <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>
 					</td>
@@ -49,19 +49,20 @@
 							    <input class="form-control" type="text" name="name" [(ngModel)]="job.name" placeholder="Name" required>
 							</div>
 							<div class="form-group">
-								<input class="form-control" type="text" name="description" [(ngModel)]="job.description" placeholder="description" required>
+								<textarea class="form-control" rows="5" name="description" [(ngModel)]="job.description" placeholder="description" required></textarea>
+
 							</div>
 							<div class="form-group">
 								<input class="form-control" type="text" name="category" [(ngModel)]="job.category" placeholder="Category" required>
 							</div>
 							<div class="form-group">
-								<input class="form-control" type="text" name="city" [(ngModel)]="job.city" placeholder="City"  required>
+								<input class="form-control" type="text" name="city" [(ngModel)]="job.location.city" placeholder="City"  required>
 							</div>	
 							<div class="form-group">
-								<input class="form-control" type="text" name="state" [(ngModel)]="job.state" placeholder="State"  required>
+								<input class="form-control" type="text" name="state" [(ngModel)]="job.location.state" placeholder="State"  required>
 							</div>		
 							<div class="form-group">
-								<input class="form-control" type="number" name="zip" [(ngModel)]="job.zip" placeholder="Zip"  required>
+								<input class="form-control" type="number" name="zip" [(ngModel)]="job.location.zip" placeholder="Zip"  required>
 							</div>																								
 							<button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
 						</form>
@@ -86,11 +87,22 @@
 			    <input class="form-control" type="text" name="name" formControlName="name" placeholder="Name">
 			</div>
 			<div class="form-group">
-				<input class="form-control" type="text" name="description" formControlName="description" placeholder="description">
+				<textarea class="form-control" rows="5" name="description" formControlName="description" placeholder="description"></textarea>
 			</div>
 			<div class="form-group">
 				<input class="form-control" type="text" name="category" formControlName="category" placeholder="category" >
 			</div>
+			<div formGroupName="location">
+				<div class="form-group">
+					<input class="form-control" type="text" name="city" formControlName="city" placeholder="city" >
+				</div>	
+				<div class="form-group">
+					<input class="form-control" type="text" name="state" formControlName="state" placeholder="state" >
+				</div>			
+				<div class="form-group">
+					<input class="form-control" type="number" name="zip" formControlName="zip" placeholder="zip" >
+				</div>		
+			</div>										
 			<button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid"><i class="fa fa-floppy-o"></i> Add</button>
 		</form>
 	</div>

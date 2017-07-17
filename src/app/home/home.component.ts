@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit {
 	private name = new FormControl("", Validators.required);
 	private description = new FormControl("", Validators.required);
 	private category = new FormControl("", Validators.required);
-	// private location = new FormControl("", Validators.required);
+	private location = new FormControl("", Validators.required);
 
 	private infoMsg = { body: "", type: "info"};
 
@@ -37,11 +37,11 @@ export class HomeComponent implements OnInit {
 			name: this.name,
 			description: this.description,
 			category: this.category,
-			// location: this.formBuilder.group({
-			// 	'city': ['', [Validators.required]],
-			// 	'state': ['', [Validators.required]],
-			// 	'zip': ['', [Validators.required]]
-			// }),			
+			location: this.formBuilder.group({
+				'city': ['', [Validators.required]],
+				'state': ['', [Validators.required]],
+				'zip': ['', [Validators.required]]
+			}),			
 		});
 	}
 
