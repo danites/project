@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import 'rxjs/Rx';
-
+import { Router } from "@angular/router";
 
 @Injectable()
 export class DbService {
@@ -11,7 +11,7 @@ export class DbService {
 
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers });
-    constructor (private http: Http) {}
+    constructor (private http: Http, private router: Router) {}
 
     getJobs() {
         //return this.http.get('/jobs'); //.map(res => res.json())
@@ -19,10 +19,15 @@ export class DbService {
     }
 
     addJob(job) {
-        console.log("JSON"+JSON.stringify(job));
-        console.log("job"+job);
+        var userId = localStorage['uniqueUser_token'];
+        if(!userId){
+            console.log('Unauthorized user');
+            return null;
+            //this.router.navigate(['/']); //We need to redirect to unauthorized
+            //return "Unathorized user";
+            }
+		job["userId"] = userId;
         return this.http.post(this.dbport+"/job", JSON.stringify(job),this.options);
-     //   return this.http.post(this.dbport+"/job", { "name":444}, this.options);
     }
 
     editJob(job) {
