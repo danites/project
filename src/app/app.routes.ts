@@ -3,6 +3,7 @@ import { HomeComponent } from './home/home.component';
 import { CallbackComponent } from './callback/callback.component';
 import { JoblistComponent } from './joblist/joblist.component';
 import { JobaddComponent } from './jobadd/jobadd.component';
+import { JobeditComponent } from './jobedit/jobedit.component';
 import { ProfileComponent } from './profile/profile.component';
 
 const MY_ROUTES: Routes = [
@@ -11,6 +12,7 @@ const MY_ROUTES: Routes = [
   { path: 'callback', component: CallbackComponent },
   { path: 'joblist', component: JoblistComponent },
   { path: 'jobadd', component: JobaddComponent },
+  { path: 'jobedit', component: JobeditComponent },
   { path: '**', redirectTo: '' }
 ];
 export const routing = RouterModule.forRoot(MY_ROUTES);
