@@ -13,7 +13,7 @@ export class AuthService {
     responseType: 'token id_token',
     audience: `https://${AUTH_CONFIG.domain}/userinfo`,
     redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   constructor(public router: Router) {}
@@ -24,6 +24,7 @@ export class AuthService {
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
+      //console.log(authResult);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
@@ -41,6 +42,7 @@ export class AuthService {
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     // console.log(authResult);
     // console.log(authResult['idTokenPayload']['sub']);
+    localStorage.setItem('name', authResult['idTokenPayload']['name']);
     localStorage.setItem('uniqueUser_token', authResult['idTokenPayload']['sub']);
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
