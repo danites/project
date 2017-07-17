@@ -5,15 +5,12 @@ import 'rxjs/Rx';
 
 @Injectable()
 export class DbService {
-    dbport = 'http://localhost:4206';
+    dbport = 'http://localhost:4267';
+    // private headers = new Headers({ 'Content-Type': 'application/json' });
+    // private options = new RequestOptions({ headers: this.headers });
+
     private headers = new Headers({ 'Content-Type': 'application/json' });
     private options = new RequestOptions({ headers: this.headers });
-    // let headers = new Headers();
-    // // let authToken = this._user.getUser().JWT;
-    // headers.append('Content-Type', 'application/json');
-    // // headers.append('Authorization', `Bearer ${authToken}`);
-    // let options = new RequestOptions({ headers: headers });
-
     constructor (private http: Http) {}
 
     getJobs() {
@@ -25,11 +22,7 @@ export class DbService {
         console.log("JSON"+JSON.stringify(job));
         console.log("job"+job);
         return this.http.post(this.dbport+"/job", JSON.stringify(job),this.options);
-        // return this.http.post(this.dbport+"/job", JSON.stringify(job), {
-        //         headers: { 
-        //         'Content-Type':'application/json',
-        //         }
-        // });
+     //   return this.http.post(this.dbport+"/job", { "name":444}, this.options);
     }
 
     editJob(job) {

@@ -1,14 +1,17 @@
 var express = require('express');
 var morgan = require('morgan'); // logger
 var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
 
 var app = express();
-app.set('port', (4206));
+app.set('port', (4267));
 
 app.use('/', express.static(__dirname + '/public'));
 app.use('/scripts', express.static(__dirname + '/../node_modules'));
 app.use('/bundle', express.static(__dirname + '/bundle'));
 app.use('/app', express.static(__dirname + '/app'));
+app.use(methodOverride('X-HTTP-Method-Override')); // override with the X-HTTP-Method-Override header in the request
+
 
 
 app.use(bodyParser.json());
@@ -17,46 +20,29 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 
 //Below is Enabling CORS
-// app.use(function (req, res, next) {
+app.use(function (req, res, next) {
 
-//     // Website you wish to allow to connect
-//     res.setHeader('Access-Control-Allow-Origin', '*');
-
-//     // Request methods you wish to allow
-//     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-//     // Request headers you wish to allow
-//     //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-//     res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-
-//     // Set to true if you need the website to include cookies in the requests sent
-//     // to the API (e.g. in case you use sessions)
-//     res.setHeader('Access-Control-Allow-Credentials', true);
-
-//     // Pass to next layer of middleware
-//     next();
-// });
-// app.use(function(req, res, next) {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-//   res.setHeader("Access-Control-Max-Age", "3600");
-//   //res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-//   res.header("X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");
-
-//   next();
-
-// });
-app.use(function(req, res, next) {
+    // Website you wish to allow to connect
     res.setHeader('Access-Control-Allow-Origin', '*');
-    //res.setHeader('Access-Control-Allow-Methods', 'GET, POST'); 
-    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,PATCH,OPTIONS');
-    res.header("X-ACCESS_TOKEN", "Access-Control-Allow-Origin", "Authorization", "Origin", "x-requested-with", "Content-Type", "Content-Range", "Content-Disposition", "Content-Description");
-    
+
+    // Request methods you wish to allow
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+
+    // Request headers you wish to allow
+    //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+
+    // Set to true if you need the website to include cookies in the requests sent
+    // to the API (e.g. in case you use sessions)
+    res.setHeader('Access-Control-Allow-Credentials', true);
+
+    // Pass to next layer of middleware
     next();
 });
 
+
 var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/test');
+mongoose.connect('mongodb://localhost:27017/swiftjob');
 var db = mongoose.connection;
 mongoose.Promise = global.Promise;
 
@@ -122,10 +108,10 @@ db.once('open', function() {
     });
 
 
-    // all other routes are handled by Angular
-    // app.get('/*', function(req, res) {
-    //     res.sendFile(__dirname + '/public/index.html');
-    // });
+    //all other routes are handled by Angular
+    app.get('/*', function(req, res) {
+        res.sendFile(__dirname + '/index.html');
+    });
 
     app.listen(app.get('port'), function() {
         console.log('MEAN app listening on port '+app.get('port'));

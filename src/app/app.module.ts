@@ -12,6 +12,7 @@ import { routing } from "./app.routes";
 
 import { AuthService } from './auth/auth.service';
 import { CallbackComponent } from './callback/callback.component';
+import { ProfileComponent } from './profile/profile.component';
 // import {enableProdMode} from '@angular/core';
 // enableProdMode();
 
@@ -19,7 +20,8 @@ import { CallbackComponent } from './callback/callback.component';
   declarations: [
     AppComponent,
     HomeComponent,
-    CallbackComponent
+    CallbackComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
