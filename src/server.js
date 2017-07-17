@@ -58,13 +58,24 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
     console.log('Connected to MongoDB');
 
-    // select all
+    // select all Sorted by pref Date
     app.get('/jobs', function(req, res) {
+        Job.find({}, function(err, docs) {
+            if(err) return console.error(err);
+            res.json(docs);
+        })
+        .sort({ prefered_date:1 });
+    });
+
+    // select all Sorted by pref Date, limit 10
+    app.get('/jobssortlimit10', function(req, res) {
         console.log('get op:'+req);
         Job.find({}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
-        });
+        })
+        .sort({ prefered_date:1 })
+        .limit(10);
     });
 
     // count all
@@ -96,6 +107,16 @@ db.once('open', function() {
         })
     });
 
+    // Search filter
+    app.get('/jobsearch', function(req, res) {
+        var id = req.query
+        Job.find({_id: req.params.id}, function(err, docs) {
+            if(err) return console.error(err);
+            res.json(docs);
+        })
+        .sort({ prefered_date:1 });        
+    });
+    
     // update by id
     app.put('/job/:id', function(req, res) {
         Job.findOneAndUpdate({_id: req.params.id}, req.body, function (err) {
