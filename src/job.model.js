@@ -12,8 +12,9 @@ var jobSchema = mongoose.Schema({
         long:Number,
         lat:Number
     },
-    // prefered_date : { type : Date, default: Date.now },
-    prefered_date : { type : Date},
+    // preferred_date : { type : Date, default: Date.now },
+    preferred_date : { type : Date},
+    hourly_fee: Number
     
 });
 

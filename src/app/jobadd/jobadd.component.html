@@ -31,65 +31,94 @@
 
 </div> -->
 
-
+  <!-- ADD JOB -->
 <div class="card" *ngIf="!isEditing">
   <form class="" [formGroup]="addJobForm" (ngSubmit)="addJob()">
     <div class="container">
       <div class="row">
         <div class="form-group col-md-12 bg-primary row-header">
-          <label class="control-label" for="billinginformation">JOB ADD</label>
+          <label class="control-label">JOB ADD</label>
         </div>
 
-        <div class="shipping-info">
-          <div class="form-group col-md-6">
-            <span class="required-lbl">* </span><label class="control-label" for="name">Job Title</label>
+        <div class="form-group col-md-6">
+          <span class="required-lbl">* </span><label class="control-label" for="name">Job Title</label>
+          <div class="controls">
+            <input id="name" name="name" type="text" placeholder="" class="form-control" formControlName="name" required="">
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <span class="required-lbl">* </span><label class="control-label" for="category">Job Category</label>
+          <div class="controls">
+            <input id="category" name="category" type="text" placeholder="" class="form-control" formControlName="category" required="">
+          </div>
+        </div>
+
+        <div class="form-group col-md-6">
+          <label class="control-label" for="shippingaddress2">Description</label>
+          <div class="controls">
+            <textarea class="form-control" rows="3" name="description" formControlName="description" placeholder="description"></textarea>
+          </div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <span class="required-lbl">* </span><label class="control-label" for="shippingcity">Hourly Fee</label>
+          <div class="controls">
+            <input id="hourly_fee" name="hourly_fee" type="number" placeholder="" class="form-control" formControlName="hourly_fee" required="">
+          </div>
+        </div>
+
+        <div class="form-group col-md-3">
+          <span class="required-lbl">* </span><label class="control-label" for="preferred_date">Preferred DateTime</label>
+          <div class="controls">
+            <input id="preferred_date" name="preferred_date" type="text" placeholder="mm/dd/yyyy hh:mm" formControlName="preferred_date"
+              class="form-control" required="">
+          </div>
+        </div>
+
+        <hr>
+        <div class="form-group col-md-12">
+          <div class="control-group confirm-btn">
+            <label class="control-label" for="placeorderbtn"></label>
             <div class="controls">
-              <input id="name" name="name" type="text" placeholder="" class="form-control" required="">
+              <!-- <button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid">Add Post</button> -->
+              <button class="btn btn-primary" type="submit">Add Post</button>
             </div>
           </div>
-
-          <div class="form-group col-md-6">
-            <span class="required-lbl">* </span><label class="control-label" for="category">Job Category</label>
-            <div class="controls">
-              <input id="category" name="category" type="text" placeholder="" class="form-control" required="">
-            </div>
-          </div>
-
-          <div class="form-group col-md-6">
-            <label class="control-label" for="shippingaddress2">Description</label>
-            <div class="controls">
-              <textarea class="form-control" rows="3" name="description" formControlName="description" placeholder="description"></textarea>
-            </div>
-          </div>
-
-          <div class="form-group col-md-3">
-            <span class="required-lbl">* </span><label class="control-label" for="shippingcity">Prefered Date</label>
-            <div class="controls">
-              <input id="shippingcity" name="preferred_date" type="text" placeholder="mm/dd/yyyy" class="form-control" required="">
-            </div>
-          </div>
-
-          <div class="form-group col-md-3">
-            <span class="required-lbl">* </span><label class="control-label" for="preferred_time">Prefered Time</label>
-            <div class="controls">
-              <input id="shippingcity" name="preferred_time" type="text" placeholder="hh:mm" class="form-control" required="">
-            </div>
-          </div>
-
-
-          <hr>
-          <div class="form-group col-md-12">
-            <div class="control-group confirm-btn">
-              <label class="control-label" for="placeorderbtn"></label>
-              <div class="controls">
-                <!-- <button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid">Add Post</button> -->
-                <button class="btn btn-primary" type="submit">Add Post</button>
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </div>
   </form>
 </div>
+
+
+<!-- 
+
+
+
+
+<tbody *ngIf="isEditing">
+  <tr>
+    <td colspan="4">
+      <form class="form-inline" #form="ngForm" (ngSubmit)="editJob(job)" style="display:inline">
+        <div class="form-group">
+          <input class="form-control" type="text" name="name" [(ngModel)]="job.name" placeholder="Name" required>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="category" [(ngModel)]="job.category" placeholder="Category" required>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="preferred_date" [(ngModel)]="job.preferred_date" placeholder="Category" required>
+        </div>
+        <div class="form-group">
+          <textarea class="form-control" rows="5" name="description" [(ngModel)]="job.description" placeholder="description" required></textarea>
+        </div>
+        <div class="form-group">
+          <input class="form-control" type="text" name="hourly_fee" [(ngModel)]="job.hourly_fee" placeholder="hourly fee" required>
+        </div>
+        <button class="btn btn-sm btn-primary" type="submit" [disabled]="!form.form.valid"><i class="fa fa-floppy-o"></i> Save</button>
+      </form>
+      <button class="btn btn-sm btn-warning" (click)="cancelEditing()"><i class="fa fa-times"></i> Cancel</button>
+    </td>
+  </tr>
+</tbody> -->
