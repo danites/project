@@ -59,7 +59,11 @@ export class JobaddComponent implements OnInit {
 
   addJob() {
     var job = this.addJobForm.value;
-    job["location"] = [-91.968,41.0166];
+    // console.log("job"+JSON.stringify(job));
+    // console.log("job"+JSON.stringify(job["location"]["longtitude"]));
+    // console.log("job"+JSON.stringify(job["location"]["latitude"]));
+   // job["location"] = [-94.968,44.0166];
+    job["location"] = [job["location"]["longtitude"],job["location"]["latitude"]];
     // job["location"] =null;
     this.jobService.addJob(job).subscribe(
       res => {
