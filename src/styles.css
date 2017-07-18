@@ -68,6 +68,10 @@ th, .table-info > td {
 }
 
 .seeker {
-    font-size: 25px;
-    
+    font-size: 25px;    
+}
+
+.no-bottom-radius {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
