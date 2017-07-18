@@ -1,12 +1,17 @@
 var express = require('express');
+var jwt= require('express-jwt');
+var  cors=require('cors');
+var vm = require('js-vm');
 var morgan = require('morgan'); // logger
 var bodyParser = require('body-parser');
 var methodOverride = require('method-override');
+//var Buffer =require('buffer');
 // var jobs = require('./routes/jobs');
 // var users = require('./routes/users');
 
 var app = express();
 app.set('port', (4267));
+app.use(cors());
 
 app.use('/', express.static(__dirname + '/public'));
 app.use('/scripts', express.static(__dirname + '/../node_modules'));
@@ -45,6 +50,17 @@ app.use(function (req, res, next) {
     next();
 });
 
+var authCheck=jwt({
+    secret: new Buffer('s1Xj11O6v6_2kBLMFY7qsahqrlM8LXoBgZEAI6ABuJWRqvaXJ3iU48Ats8lYvdRc'),
+    audience:'Q9fmCS4NZAHC1dqV0lVFGaVQRBhWta4a'
+});
+
+app.get('/', authCheck,function(req, res) {
+
+app.use('/', express.static(__dirname + '/public'));
+
+  res.json(users);
+});
 
 var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/swiftjob');
@@ -58,19 +74,23 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
     console.log('Connected to MongoDB');
 
+
     // select all Sorted by pref Date
-    app.get('/jobs', function (req, res) {
-        Job.find({}, function (err, docs) {
-            if (err) return console.error(err);
+
+    app.get('/jobs', authCheck,function(req, res) {
+        Job.find({}, function(err, docs) {
+            if(err) return console.error(err);
             res.json(docs);
         })
             .sort({ preferred_date: 1 });
     });
 
     // select all Sorted by pref Date, only from today to future
-    app.get('/jobstoday', function (req, res) {
-        Job.find({ "preferred_date": { "$gte": Date.now() } }, function (err, docs) {
-            if (err) return console.error(err);
+
+    app.get('/jobstoday', authCheck,function(req, res) {
+        Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
+            if(err) return console.error(err);
+
             res.json(docs);
         })
             .sort({ preferred_date: 1 });
@@ -88,10 +108,11 @@ db.once('open', function () {
     // });
 
     // select all Sorted by pref Date, limit 10, only from today to future
-    app.get('/jobstodaylimit10', function (req, res) {
-        console.log('get op:' + req);
-        Job.find({ "preferred_date": { "$gte": Date.now() } }, function (err, docs) {
-            if (err) return console.error(err);
+
+    app.get('/jobstodaylimit10', authCheck,function(req, res) {
+        console.log('get op:'+req);
+        Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
+            if(err) return console.error(err);
             res.json(docs);
         })
             .sort({ preferred_date: 1 })
@@ -121,16 +142,17 @@ db.once('open', function () {
     });
 
     // count all
-    app.get('/jobs/count', function (req, res) {
-        Job.count(function (err, count) {
-            if (err) return console.error(err);
+
+    app.get('/jobs/count', authCheck,function(req, res) {
+        Job.count(function(err, count) {
+            if(err) return console.error(err);
             res.json(count);
         });
     });
 
     // create
-    app.post('/job', function (req, res) {
 
+    app.post('/job',authCheck, function(req, res) {
         var obj = new Job(req.body);
         console.log('save op:' + req);
         //console.log('save op2:'+JSON.parse(obj));
@@ -142,15 +164,19 @@ db.once('open', function () {
     });
 
     // find by id
-    app.get('/job/:id', function (req, res) {
-        Job.findOne({ _id: req.params.id }, function (err, obj) {
-            if (err) return console.error(err);
+
+    app.get('/job/:id',authCheck,function(req, res) {
+        Job.findOne({_id: req.params.id}, function (err, obj) {
+            if(err) return console.error(err);
+
             res.json(obj);
         })
     });
 
     // Search filter
-    app.get('/jobsearch', function (req, res) {
+
+    app.get('/jobsearch',authCheck, function(req, res) {
+
         var query = req.query;
         console.log("Query is:" + query.category);
         var searchTerm = {};
@@ -196,9 +222,10 @@ db.once('open', function () {
     });
 
     // update by id
-    app.put('/job/:id', function (req, res) {
-        Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
-            if (err) return console.error(err);
+
+    app.put('/job/:id',authCheck, function(req, res) {
+        Job.findOneAndUpdate({_id: req.params.id}, req.body, function (err) {
+            if(err) return console.error(err);
             res.sendStatus(200);
         })
     });
@@ -233,9 +260,9 @@ db.once('open', function () {
     });
 
     // delete by id
-    app.delete('/job/:id', function (req, res) {
-        Job.findOneAndRemove({ _id: req.params.id }, function (err) {
-            if (err) return console.error(err);
+    app.delete('/job/:id',authCheck, function(req, res) {
+        Job.findOneAndRemove({_id: req.params.id}, function(err) {
+            if(err) return console.error(err);
             res.sendStatus(200);
         });
     });
@@ -250,5 +277,6 @@ db.once('open', function () {
         console.log('MEAN app listening on port ' + app.get('port'));
     });
 });
+
 
 
