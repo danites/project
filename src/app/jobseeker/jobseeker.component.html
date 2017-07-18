@@ -1,7 +1,49 @@
-<div class="alert alert-success" role="alert">
-  <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-  <span class="sr-only">Error:</span><h3>APPLIED PRESENT : {{jobs.length}} </h3>
+<div class="col-md-12 bg-primary row-header">
+  <label class="control-label">APPLIED PRESENT : {{jobs.length}}</label>
 </div>
+
+<div class="card-block">
+  <table class="table table-striped">
+    <thead class="thead-default">
+      <tr>
+        <th></th>
+        <th>Name</th>
+        <th>Category</th>
+        <th>Preferred Date</th>
+        <th>Hourly Fee</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tbody *ngIf="jobs.length === 0">
+      <tr>
+        <td colspan="4">There are no jobs in the DB. Add a new job below.</td>
+      </tr>
+    </tbody>
+    <tbody *ngIf="!isEditing">
+      <tr *ngFor="let job of jobs; let i = index">
+        <td>{{i+1}}.</td>
+        <td>{{job.name}}</td>
+        <td>{{job.category}}</td>
+        <td>{{job.preferred_date}}</td>
+        <td>{{job.hourly_fee}}</td>
+        <td>{{job.description}}</td>
+      </tr>
+    </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="6">Total: {{ jobs.length }}</th>
+      </tr>
+    </tfoot>
+  </table>
+</div>
+
+<br>
+<hr class="dividerblue"><br>
+
+<div class="col-md-12 bg-primary row-header">
+  <label class="control-label">HIRED LIST : {{jobs.length}}</label>
+</div>
+
 <div class="card-block">
   <table class="table table-striped">
     <thead class="thead-default">
@@ -34,5 +76,10 @@
         </td>
       </tr>
     </tbody>
+    <tfoot>
+      <tr>
+        <th colspan="7">Total: {{ jobs.length }}</th>
+      </tr>
+    </tfoot>
   </table>
 </div>
