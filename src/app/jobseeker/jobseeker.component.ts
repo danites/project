@@ -17,11 +17,11 @@ export class JobseekerComponent implements OnInit {
     private jobService: DbService) { }
 
   ngOnInit() {
-    this.getJobs();
+    this.getAppliedJobsByUser();
   }
 
-  getJobs() {
-    this.jobService.getJobs().subscribe(
+  getAppliedJobsByUser() {
+    this.jobService.getAppliedJobsByUser().subscribe(
       data => this.jobs = data,
       error => console.log(error)
     );

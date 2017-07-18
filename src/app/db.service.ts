@@ -40,6 +40,12 @@ export class DbService {
         return this.http.get(this.dbport+'/jobstodaynearlimit10').map(res => res.json());
     }
     
+    getAppliedJobsByUser() {
+        var userId = localStorage['uniqueUser_token'];
+        return this.http.get(this.dbport+'/jobsByUser/'+userId,this.options).map(res => res.json());
+        // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+    }
+
     addJob(job) {
         var userId = localStorage['uniqueUser_token'];
         if(!userId){

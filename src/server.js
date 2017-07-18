@@ -77,7 +77,8 @@ db.once('open', function () {
 
     // select all Sorted by pref Date
 
-    app.get('/jobs', authCheck,function(req, res) {
+    // app.get('/jobs', authCheck,function(req, res) {
+    app.get('/jobs', function(req, res) {
         Job.find({}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
@@ -87,7 +88,8 @@ db.once('open', function () {
 
     // select all Sorted by pref Date, only from today to future
 
-    app.get('/jobstoday', authCheck,function(req, res) {
+    // app.get('/jobstoday', authCheck,function(req, res) {
+    app.get('/jobstoday',function(req, res) {
         Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
             if(err) return console.error(err);
 
@@ -109,7 +111,8 @@ db.once('open', function () {
 
     // select all Sorted by pref Date, limit 10, only from today to future
 
-    app.get('/jobstodaylimit10', authCheck,function(req, res) {
+    // app.get('/jobstodaylimit10', authCheck,function(req, res) {
+    app.get('/jobstodaylimit10', function(req, res) {
         console.log('get op:'+req);
         Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
             if(err) return console.error(err);
@@ -143,7 +146,8 @@ db.once('open', function () {
 
     // count all
 
-    app.get('/jobs/count', authCheck,function(req, res) {
+    // app.get('/jobs/count', authCheck,function(req, res) {
+    app.get('/jobs/count', function(req, res) {
         Job.count(function(err, count) {
             if(err) return console.error(err);
             res.json(count);
@@ -152,7 +156,8 @@ db.once('open', function () {
 
     // create
 
-    app.post('/job',authCheck, function(req, res) {
+    // app.post('/job',authCheck, function(req, res) {
+    app.post('/job', function(req, res) {
         var obj = new Job(req.body);
         console.log('save op:' + req);
         //console.log('save op2:'+JSON.parse(obj));
@@ -165,8 +170,20 @@ db.once('open', function () {
 
     // find by id
 
-    app.get('/job/:id',authCheck,function(req, res) {
+    // app.get('/job/:id',authCheck,function(req, res) {
+    app.get('/job/:id',function(req, res) {
         Job.findOne({_id: req.params.id}, function (err, obj) {
+            if(err) return console.error(err);
+
+            res.json(obj);
+        })
+    });
+
+    app.get('/jobsByUser/:id',function(req, res) {
+        //db.jobs.find({"candidates.userId":{$eq:"google-oauth2|104225564315616177259"}}).pretty()
+        let qq= String(req.params.id);
+
+        Job.find({"candidates.userId": qq}, function (err, obj) {
             if(err) return console.error(err);
 
             res.json(obj);
@@ -175,7 +192,8 @@ db.once('open', function () {
 
     // Search filter
 
-    app.get('/jobsearch',authCheck, function(req, res) {
+    // app.get('/jobsearch',authCheck, function(req, res) {
+    app.get('/jobsearch',function(req, res) {
 
         var query = req.query;
         console.log("Query is:" + query.category);
@@ -223,7 +241,8 @@ db.once('open', function () {
 
     // update by id
 
-    app.put('/job/:id',authCheck, function(req, res) {
+    // app.put('/job/:id',authCheck, function(req, res) {
+    app.put('/job/:id',function(req, res) {
         Job.findOneAndUpdate({_id: req.params.id}, req.body, function (err) {
             if(err) return console.error(err);
             res.sendStatus(200);
@@ -232,17 +251,24 @@ db.once('open', function () {
 
     // Apply for job
     app.put('/jobapply/:id', function (req, res) {
-        console.log("apply job:"+req.headers['sender_userName']);
-        let sender_userId = req.headers['sender_userId'];
-        let sender_userName = req.headers['sender_userName'];
-        console.log('sender:'+sender_userId);
-        console.log('sender:'+sender_userName);
+        let sender_userId = req.get('sender_userId');
+        let sender_userName = req.get('sender_userName');
 
         Job.findOne({ _id: req.params.id }, function (err, job) {
             if (err) return console.error(err);
             //console.log('found:'+JSON.stringify(job));
             if(!job['candidates'])
                 job['candidates'] = [];
+            
+
+            for(var i = 0; i < job['candidates'].length; i++)
+            {
+                if(job['candidates'][i].userId == sender_userId)
+                {
+                    return res.sendStatus(200);
+                }
+            }
+
             job['candidates'].push({
                 userId : sender_userId,
                 userName: sender_userName,
@@ -260,7 +286,8 @@ db.once('open', function () {
     });
 
     // delete by id
-    app.delete('/job/:id',authCheck, function(req, res) {
+    // app.delete('/job/:id',authCheck, function(req, res) {
+    app.delete('/job/:id', function(req, res) {
         Job.findOneAndRemove({_id: req.params.id}, function(err) {
             if(err) return console.error(err);
             res.sendStatus(200);
@@ -277,6 +304,3 @@ db.once('open', function () {
         console.log('MEAN app listening on port ' + app.get('port'));
     });
 });
-
-
-
