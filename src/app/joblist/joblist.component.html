@@ -66,7 +66,8 @@
           <td>{{job.description}}</td>
           <td class="text-right">
             <button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Edit</button>
-            <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>
+            <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>&emsp;|&emsp;             
+            <button class="btn btn-sm btn-primary" (click)="applyJob(job)"><i class="fa fa-trash"></i> Apply</button>
           </td>
         </tr>
       </tbody>

@@ -11,7 +11,9 @@ export class DbService {
 
     private headers = new Headers({ 'Content-Type': 'application/json',
     'longtitude':localStorage.getItem('locationLong') || 0 ,
-    'latitude': localStorage.getItem('locationLat') || 0});
+    'latitude': localStorage.getItem('locationLat') || 0,
+    'sender_userId':  localStorage.getItem('uniqueUser_token')|| 0,
+    'sender_userName':  localStorage.getItem('name')|| 0 });
     private options = new RequestOptions({ headers: this.headers });
       
     constructor (private http: Http, private router: Router) {}
@@ -52,6 +54,10 @@ export class DbService {
 
     editJob(job) {
         return this.http.put(this.dbport+"/job/"+job._id, JSON.stringify(job), this.options);
+    }
+
+    applyJob(job) {
+        return this.http.put(this.dbport+"/jobapply/"+job._id, JSON.stringify(job), this.options);
     }
 
     searchJob(category, hourly_fee) {
