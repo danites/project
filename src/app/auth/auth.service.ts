@@ -51,6 +51,7 @@ export class AuthService {
 
   public logout(): void {
     // Remove tokens and expiry time from localStorage
+    localStorage.removeItem('name');
     localStorage.removeItem('uniqueUser_token');
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
