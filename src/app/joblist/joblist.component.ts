@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from './../auth/auth.service';
 import { Http } from '@angular/http';
+import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 
 import { DbService } from '../db.service';
 
@@ -17,13 +18,22 @@ export class JoblistComponent implements OnInit {
   private isLoading = true;
   private isEditing = false;
 
+  private searchJobForm: FormGroup;
+  private s_category = new FormControl("", Validators.required);
+  private s_min_fee = new FormControl("", Validators.required);
+
   constructor(public auth: AuthService, private http: Http,
-    private jobService: DbService, private router: Router) { }
+    private jobService: DbService, private router: Router, private formBuilder: FormBuilder, ) { }
 
   private infoMsg = { body: "", type: "info" };
 
   ngOnInit() {
     this.getJobs();
+
+    this.searchJobForm = this.formBuilder.group({
+      s_category: this.s_category,
+      s_min_fee: this.s_min_fee
+    });
   }
 
   getJobs() {
@@ -72,6 +82,40 @@ export class JoblistComponent implements OnInit {
       );
     }
   }
+
+  applyJob(job) {
+    this.jobService.applyJob(job).subscribe(
+      res => {
+        this.sendInfoMsg("Applied for job successfully.", "success");
+      },
+      error => console.log(error)
+    );
+  }
+
+  searchJob() {
+    var job = this.searchJobForm.value;
+    var category = job["s_category"];
+    var hourly_fee = job["s_min_fee"];
+    // console.log('category:' +category);
+    // console.log('hourly_fee:' +hourly_fee);
+    // job["location"] =null;s_category
+    this.jobService.searchJob(category, hourly_fee).subscribe
+      (
+      data => this.jobs = data,
+      error => console.log(error),
+      () => this.isLoading = false
+      );
+    // (
+    //     (data: any) => {
+    //         //console.log(data);
+    //         this.jobs = data;
+    //     },
+    //   error => console.log(error),
+    //   () => this.isLoading = false    
+    // );
+  }
+
+
 
   sendInfoMsg(body, type, time = 3000) {
     this.infoMsg.body = body;

@@ -11,15 +11,17 @@ export class DbService {
 
     private headers = new Headers({ 'Content-Type': 'application/json',
     'longtitude':localStorage.getItem('locationLong') || 0 ,
-    'latitude': localStorage.getItem('locationLat') || 0});
+    'latitude': localStorage.getItem('locationLat') || 0,
+    'sender_userId':  localStorage.getItem('uniqueUser_token')|| 0,
+    'sender_userName':  localStorage.getItem('name')|| 0 });
     private options = new RequestOptions({ headers: this.headers });
       
     constructor (private http: Http, private router: Router) {}
 
     getJobs() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        // return this.http.get(this.dbport+'/jobs',this.options).map(res => res.json());
-        return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+        return this.http.get(this.dbport+'/jobs',this.options).map(res => res.json());
+        // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobstoday() {
@@ -54,16 +56,30 @@ export class DbService {
         return this.http.put(this.dbport+"/job/"+job._id, JSON.stringify(job), this.options);
     }
 
+    applyJob(job) {
+        return this.http.put(this.dbport+"/jobapply/"+job._id, JSON.stringify(job), this.options);
+    }
+
     searchJob(category, hourly_fee) {
-        let params = new URLSearchParams();
-        if(category)
-            params.set('category', category);
-        if(hourly_fee)
-            params.set('hourly_fee', hourly_fee);
-        params.set('longtitude',localStorage.getItem('locationLong'));
-        params.set('latitude', localStorage.getItem('locationLat'));
+        //console.log('dbservice:'+category + ', '  +hourly_fee)
+        // let params = new URLSearchParams();
+        let param = "/jobsearch?";
+        if(category) {
+            param += ("category="+category);
+        }
+
+        if(hourly_fee) {
+            param += ("hourly_fee="+hourly_fee);
+        }
+            // params.set('hourly_fee', hourly_fee);
+        // params.set('longtitude',localStorage.getItem('locationLong'));
+        // params.set('latitude', localStorage.getItem('locationLat'));
         //return this.http.put(this.dbport+"/search/"+job._id, JSON.stringify(job), this.options);
-        return this.http.get(this.dbport+"/search/",  { search: params });
+        //return this.http.get(this.dbport+"/jobsearch/",  { search: params });
+        
+        return this.http.get(this.dbport+param,this.options).map(res => res.json());
+       // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+
     }
     
 

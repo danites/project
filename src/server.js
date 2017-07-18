@@ -40,7 +40,7 @@ app.use(function (req, res, next) {
 
     // Request headers you wish to allow
     //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, longtitude, latitude");
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, longtitude, latitude, sender_userId, sender_userName");
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -71,26 +71,29 @@ mongoose.Promise = global.Promise;
 var Job = require('./job.model.js');
 
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', function () {
     console.log('Connected to MongoDB');
 
 
     // select all Sorted by pref Date
+
     app.get('/jobs', authCheck,function(req, res) {
         Job.find({}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ preferred_date:1 });
+            .sort({ preferred_date: 1 });
     });
 
     // select all Sorted by pref Date, only from today to future
+
     app.get('/jobstoday', authCheck,function(req, res) {
         Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
             if(err) return console.error(err);
+
             res.json(docs);
         })
-        .sort({ preferred_date:1 });
+            .sort({ preferred_date: 1 });
     });
 
     // // select all Sorted by pref Date, limit 10
@@ -105,39 +108,41 @@ db.once('open', function() {
     // });
 
     // select all Sorted by pref Date, limit 10, only from today to future
+
     app.get('/jobstodaylimit10', authCheck,function(req, res) {
         console.log('get op:'+req);
         Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ preferred_date:1 })
-        .limit(10);
+            .sort({ preferred_date: 1 })
+            .limit(10);
     });
 
     // select all Sorted by pref Date, limit 10, only from today to future, nearest on Map
-    app.get('/jobstodaynearlimit10', function(req, res) {
-        var coords = [];  
+    app.get('/jobstodaynearlimit10', function (req, res) {
+        var coords = [];
         //console.log(req.headers);
         coords[0] = req.headers.longitude || 0;
         coords[1] = req.headers.latitude || 0;
-        maxDistance=10;
-        console.log("coords:"+coords[0]+' '+coords[1]);
+        maxDistance = 10;
+        console.log("coords:" + coords[0] + ' ' + coords[1]);
         //Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
-        Job.find({      
-                        location: {
-                        $near: coords,
-                        //$maxDistance: maxDistance
-                    }
-        }, function(err, docs) {
-            if(err) return console.error(err);
+        Job.find({
+            location: {
+                $near: coords,
+                //$maxDistance: maxDistance
+            }
+        }, function (err, docs) {
+            if (err) return console.error(err);
             res.json(docs);
         })
-        .sort({ preferred_date:1 })
-        .limit(10);
+            .sort({ preferred_date: 1 })
+            .limit(10);
     });
 
     // count all
+
     app.get('/jobs/count', authCheck,function(req, res) {
         Job.count(function(err, count) {
             if(err) return console.error(err);
@@ -146,73 +151,112 @@ db.once('open', function() {
     });
 
     // create
+
     app.post('/job',authCheck, function(req, res) {
-        
         var obj = new Job(req.body);
-        console.log('save op:'+req);
+        console.log('save op:' + req);
         //console.log('save op2:'+JSON.parse(obj));
-        console.log('save op2:'+JSON.stringify(obj));
-        obj.save(function(err, obj) {
-            if(err) return console.error(err);
+        console.log('save op2:' + JSON.stringify(obj));
+        obj.save(function (err, obj) {
+            if (err) return console.error(err);
             res.status(200).json(obj);
         });
     });
 
     // find by id
+
     app.get('/job/:id',authCheck,function(req, res) {
         Job.findOne({_id: req.params.id}, function (err, obj) {
             if(err) return console.error(err);
+
             res.json(obj);
         })
     });
 
     // Search filter
+
     app.get('/jobsearch',authCheck, function(req, res) {
+
         var query = req.query;
-        console.log("Query is:"+query.category);
-        var searchTerm={};
-        if(query.category){
-            searchTerm['category']=query.category;
+        console.log("Query is:" + query.category);
+        var searchTerm = {};
+        if (query.category) {
+            searchTerm['category'] = query.category;
         }
 
-        if(query.category){
-            searchTerm['category']=query.category;
-        }                
+        if (query.category) {
+            searchTerm['category'] = query.category;
+        }
 
-        maxDistance=10;
-            // searchTerm['location.long']=query.locationlong;
+        maxDistance = 10;
+        // searchTerm['location.long']=query.locationlong;
 
-            // searchTerm['location.long']=query.locationlat;
- 
-        if(query.hourly_fee){
-            searchTerm['hourly_fee']={"$gte": query.hourly_fee};
+        // searchTerm['location.long']=query.locationlat;
+
+        if (query.hourly_fee) {
+            searchTerm['hourly_fee'] = { "$gte": query.hourly_fee };
         }
 
         console.log(searchTerm);
 
-        var coords = [];  
-        if(query.longtitude && query.latitude){
+        var coords = [];
+        if (query.longtitude && query.latitude) {
             coords[0] = query.longtitude || 0;
             coords[1] = query.latitude || 0;
 
         }
-                
-        Job.find(searchTerm, function(err, docs) {
-            if(err) return console.error(err);
+
+        Job.find(searchTerm, function (err, docs) {
+            if (err) return console.error(err);
             res.json(docs);
         })
-        // .then(() => {
-        // return User.findById(req.params._id);
-        // })        
-        .sort({ preferred_date:1 });        
+            // .then(() => {
+            // return User.findById(req.params._id);
+            // })        
+            .sort({ preferred_date: 1 });
+        // Job.find({}, function(err, docs) {
+        //     if(err) return console.error(err);
+        //     res.json(docs);
+        // })
+        // .sort({ preferred_date:1 });          
     });
-    
+
     // update by id
+
     app.put('/job/:id',authCheck, function(req, res) {
         Job.findOneAndUpdate({_id: req.params.id}, req.body, function (err) {
             if(err) return console.error(err);
             res.sendStatus(200);
         })
+    });
+
+    // Apply for job
+    app.put('/jobapply/:id', function (req, res) {
+        console.log("apply job:"+req.headers['sender_userName']);
+        let sender_userId = req.headers['sender_userId'];
+        let sender_userName = req.headers['sender_userName'];
+        console.log('sender:'+sender_userId);
+        console.log('sender:'+sender_userName);
+
+        Job.findOne({ _id: req.params.id }, function (err, job) {
+            if (err) return console.error(err);
+            //console.log('found:'+JSON.stringify(job));
+            if(!job['candidates'])
+                job['candidates'] = [];
+            job['candidates'].push({
+                userId : sender_userId,
+                userName: sender_userName,
+                applied_date : Date.now()
+            });
+
+            console.log(job['candidates']);
+            Job.findOneAndUpdate({ _id: req.params.id }, job , function (err) {
+                if (err) return console.error(err);
+                res.sendStatus(200);
+            })
+                        
+        })
+
     });
 
     // delete by id
@@ -225,12 +269,12 @@ db.once('open', function() {
 
 
     //all other routes are handled by Angular
-    app.get('/*', function(req, res) {
+    app.get('/*', function (req, res) {
         res.sendFile(__dirname + '/index.html');
     });
 
-    app.listen(app.get('port'), function() {
-        console.log('MEAN app listening on port '+app.get('port'));
+    app.listen(app.get('port'), function () {
+        console.log('MEAN app listening on port ' + app.get('port'));
     });
 });
 

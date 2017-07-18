@@ -1,21 +1,21 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <div class="container">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" routerLink="/home">
           <img src="../assets/logo.png" alt="Logo" >
       </a>
     </div>
 
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><a href="#">Home</a></li>
-        <li><a routerLink="/">Apply job</a></li>
+        <li class="active"><a routerLink="/home">Home</a></li>
+        <li><a routerLink="/joblist">Apply job</a></li>
         <li><a routerLink="/joblist">Job List</a></li>
         <li><a routerLink="/jobadd">Job Add</a></li>
-        <li><a routerLink="/jobsearch">Job Search</a></li>
+        <li><a routerLink="/jobseeker">Job Seeker</a></li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">       
-        <a href="#" class="btn btn-margin">{{ userName }}</a> 
+      <ul class="nav navbar-nav navbar-right">
+        <a href="#" class="btn btn-margin">{{ userName }}</a>
         <button class="btn btn-margin" *ngIf="!auth.isAuthenticated()" (click)="auth.login()">
           Log In
         </button>

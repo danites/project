@@ -43,7 +43,7 @@ body {
 
 .dividerblue {
     width: 100%;
-    margin: 20px auto 15px;
+    margin: 20px auto;
     position: relative;
     height: 1px;
     background-color: #428bca; 
@@ -65,4 +65,13 @@ th, .table-info > td {
 
 .required-lbl{
     color: red;
+}
+
+.seeker {
+    font-size: 25px;    
+}
+
+.no-bottom-radius {
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
 }
