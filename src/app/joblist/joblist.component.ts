@@ -83,6 +83,31 @@ export class JoblistComponent implements OnInit {
     }
   }
 
+    searchJob() {
+    var job = this.searchJobForm.value;
+    var category = job["s_category"];
+    var hourly_fee =  job["s_min_fee"];
+    // console.log('category:' +category);
+    // console.log('hourly_fee:' +hourly_fee);
+    // job["location"] =null;s_category
+    this.jobService.searchJob(category, hourly_fee).subscribe
+    (
+      data => this.jobs = data,
+      error => console.log(error),
+      () => this.isLoading = false
+    );
+    // (
+    //     (data: any) => {
+    //         //console.log(data);
+    //         this.jobs = data;
+    //     },
+    //   error => console.log(error),
+    //   () => this.isLoading = false    
+    // );
+  }
+
+
+  
   sendInfoMsg(body, type, time = 3000) {
     this.infoMsg.body = body;
     this.infoMsg.type = type;

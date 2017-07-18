@@ -151,48 +151,48 @@ db.once('open', function() {
 
     // Search filter
     app.get('/jobsearch', function(req, res) {
-        // var query = req.query;
-        // console.log("Query is:"+query.category);
-        // var searchTerm={};
-        // if(query.category){
-        //     searchTerm['category']=query.category;
-        // }
+        var query = req.query;
+        console.log("Query is:"+query.category);
+        var searchTerm={};
+        if(query.category){
+            searchTerm['category']=query.category;
+        }
 
-        // if(query.category){
-        //     searchTerm['category']=query.category;
-        // }                
+        if(query.category){
+            searchTerm['category']=query.category;
+        }                
 
-        // maxDistance=10;
-        //     // searchTerm['location.long']=query.locationlong;
+        maxDistance=10;
+            // searchTerm['location.long']=query.locationlong;
 
-        //     // searchTerm['location.long']=query.locationlat;
+            // searchTerm['location.long']=query.locationlat;
  
-        // if(query.hourly_fee){
-        //     searchTerm['hourly_fee']={"$gte": query.hourly_fee};
-        // }
+        if(query.hourly_fee){
+            searchTerm['hourly_fee']={"$gte": query.hourly_fee};
+        }
 
-        // console.log(searchTerm);
+        console.log(searchTerm);
 
-        // var coords = [];  
-        // if(query.longtitude && query.latitude){
-        //     coords[0] = query.longtitude || 0;
-        //     coords[1] = query.latitude || 0;
+        var coords = [];  
+        if(query.longtitude && query.latitude){
+            coords[0] = query.longtitude || 0;
+            coords[1] = query.latitude || 0;
 
-        // }
+        }
                 
-        // Job.find(searchTerm, function(err, docs) {
-        //     if(err) return console.error(err);
-        //     res.json(docs);
-        // })
-        // // .then(() => {
-        // // return User.findById(req.params._id);
-        // // })        
-        // .sort({ preferred_date:1 });      
-        Job.find({}, function(err, docs) {
+        Job.find(searchTerm, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ preferred_date:1 });          
+        // .then(() => {
+        // return User.findById(req.params._id);
+        // })        
+        .sort({ preferred_date:1 });      
+        // Job.find({}, function(err, docs) {
+        //     if(err) return console.error(err);
+        //     res.json(docs);
+        // })
+        // .sort({ preferred_date:1 });          
     });
     
     // update by id
