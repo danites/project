@@ -5,14 +5,14 @@ import { JoblistComponent } from './joblist/joblist.component';
 import { JobaddComponent } from './jobadd/jobadd.component';
 import { JobeditComponent } from './jobedit/jobedit.component';
 import { ProfileComponent } from './profile/profile.component';
-
+import { AuthGuard } from './app.guard';
 const MY_ROUTES: Routes = [
   { path: '', component: HomeComponent },
   { path: 'profile/:id', component: ProfileComponent },
   { path: 'callback', component: CallbackComponent },
-  { path: 'joblist', component: JoblistComponent },
-  { path: 'jobadd', component: JobaddComponent },
-  { path: 'jobedit', component: JobeditComponent },
+  { path: 'joblist', component: JoblistComponent ,canActivate:[AuthGuard]},
+  { path: 'jobadd', component: JobaddComponent,canActivate:[AuthGuard] },
+  { path: 'jobedit', component: JobeditComponent,canActivate:[AuthGuard] },
   { path: '**', redirectTo: '' }
 ];
 export const routing = RouterModule.forRoot(MY_ROUTES);

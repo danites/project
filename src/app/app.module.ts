@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { DbService } from './db.service'
+import { AuthGuard } from './app.guard';
 
 import { routing } from "./app.routes";
 
@@ -34,10 +35,11 @@ import { JobeditComponent } from './jobedit/jobedit.component';
     routing,
     FormsModule,
     HttpModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    
    
   ],
-  providers: [AuthService,DbService],
+  providers: [AuthService,DbService,AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
