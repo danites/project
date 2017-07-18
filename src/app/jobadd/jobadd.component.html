@@ -35,6 +35,7 @@
               class="form-control" required="">
           </div>
         </div>
+
         <div formGroupName="location">
           <div class="form-group col-md-3">
             <span class="required-lbl">* </span><label class="control-label" for="longtitude">Longtitude</label>
@@ -44,12 +45,11 @@
           </div>
 
           <div class="form-group col-md-3">
-
+            <span class="required-lbl">* </span><label class="control-label" for="latitude">Latitude</label>
             <div class="form-group">
-              <input class="form-control" type="number" name="latitude" formControlName="latitude" placeholder="latitude" >
-            </div>	          
+              <input class="form-control" type="number" name="latitude" formControlName="latitude" placeholder="latitude">
+            </div>
           </div>
-
         </div>
 
         <div class="form-group col-md-12">
@@ -64,8 +64,8 @@
           <div class="control-group confirm-btn">
             <label class="control-label" for="placeorderbtn"></label>
             <div class="controls">
-              <!-- <button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid">Add Post</button> -->
-              <button class="btn btn-primary" type="submit">Add Post</button>
+               <!-- <button class="btn btn-primary" type="submit" [disabled]="!addJobForm.valid">Add Post</button>  -->
+               <button class="btn btn-primary" type="submit">Add Post</button> 
             </div>
           </div>
         </div>
