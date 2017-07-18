@@ -55,15 +55,25 @@ export class DbService {
     }
 
     searchJob(category, hourly_fee) {
-        let params = new URLSearchParams();
-        if(category)
-            params.set('category', category);
-        if(hourly_fee)
-            params.set('hourly_fee', hourly_fee);
-        params.set('longtitude',localStorage.getItem('locationLong'));
-        params.set('latitude', localStorage.getItem('locationLat'));
+        //console.log('dbservice:'+category + ', '  +hourly_fee)
+        // let params = new URLSearchParams();
+        let param = "/jobsearch?";
+        if(category) {
+            param += ("category="+category);
+        }
+
+        if(hourly_fee) {
+            param += ("hourly_fee="+hourly_fee);
+        }
+            // params.set('hourly_fee', hourly_fee);
+        // params.set('longtitude',localStorage.getItem('locationLong'));
+        // params.set('latitude', localStorage.getItem('locationLat'));
         //return this.http.put(this.dbport+"/search/"+job._id, JSON.stringify(job), this.options);
-        return this.http.get(this.dbport+"/search/",  { search: params });
+        //return this.http.get(this.dbport+"/jobsearch/",  { search: params });
+        
+        return this.http.get(this.dbport+param,this.options).map(res => res.json());
+       // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+
     }
     
 

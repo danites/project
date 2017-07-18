@@ -187,7 +187,12 @@ db.once('open', function() {
         // .then(() => {
         // return User.findById(req.params._id);
         // })        
-        .sort({ preferred_date:1 });        
+        .sort({ preferred_date:1 });      
+        // Job.find({}, function(err, docs) {
+        //     if(err) return console.error(err);
+        //     res.json(docs);
+        // })
+        // .sort({ preferred_date:1 });          
     });
     
     // update by id
