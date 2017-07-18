@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
 
     // Request headers you wish to allow
     //res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
+    res.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers, longtitude, latitude");
 
     // Set to true if you need the website to include cookies in the requests sent
     // to the API (e.g. in case you use sessions)
@@ -64,51 +64,59 @@ db.once('open', function() {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:-1 });
+        .sort({ preferred_date:1 });
     });
 
     // select all Sorted by pref Date, only from today to future
     app.get('/jobstoday', function(req, res) {
-        Job.find({"prefered_date": {"$gte": Date.now()}}, function(err, docs) {
+        Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:-1 });
+        .sort({ preferred_date:1 });
     });
 
-    // select all Sorted by pref Date, limit 10
-    app.get('/jobslimit10', function(req, res) {
-        console.log('get op:'+req);
-        Job.find({}, function(err, docs) {
-            if(err) return console.error(err);
-            res.json(docs);
-        })
-        .sort({ prefered_date:-1 })
-        .limit(10);
-    });
+    // // select all Sorted by pref Date, limit 10
+    // app.get('/jobslimit10', function(req, res) {
+    //     console.log('get op:'+req);
+    //     Job.find({}, function(err, docs) {
+    //         if(err) return console.error(err);
+    //         res.json(docs);
+    //     })
+    //     .sort({ preferred_date:1 })
+    //     .limit(10);
+    // });
 
     // select all Sorted by pref Date, limit 10, only from today to future
     app.get('/jobstodaylimit10', function(req, res) {
         console.log('get op:'+req);
-        Job.find({"prefered_date": {"$gte": Date.now()}}, function(err, docs) {
+        Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:-1 })
+        .sort({ preferred_date:1 })
         .limit(10);
     });
 
     // select all Sorted by pref Date, limit 10, only from today to future, nearest on Map
-    app.get('/jobstodaylimit10', function(req, res) {
+    app.get('/jobstodaynearlimit10', function(req, res) {
         var coords = [];  
-        coords[0] = req.query.longitude || 0;  
-        coords[1] = req.query.latitude || 0; 
-          console.log(this.location);
-        Job.find({"prefered_date": {"$gte": Date.now()}}, function(err, docs) {
+        //console.log(req.headers);
+        coords[0] = req.headers.longitude || 0;
+        coords[1] = req.headers.latitude || 0;
+        maxDistance=10;
+        console.log("coords:"+coords);
+        //Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
+        Job.find({      
+                        loc: {
+                        $near: coords,
+                        //$maxDistance: maxDistance
+                    }
+        }, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:-1 })
+        .sort({ preferred_date:1 })
         .limit(10);
     });
 
@@ -149,12 +157,21 @@ db.once('open', function() {
         if(query.category){
             searchTerm['category']=query.category;
         }
-        if(query.locationlong){
-            searchTerm['location.long']=query.locationlong;
+        var coords = [];  
+        if(query.longtitude && query.latitude){
+            coords[0] = query.longtitude || 0;
+            coords[1] = query.latitude || 0;
+
         }
-        if(query.locationlat){
-            searchTerm['location.long']=query.locationlat;
-        }        
+        if(query.category){
+            searchTerm['category']=query.category;
+        }                
+
+        maxDistance=10;
+            // searchTerm['location.long']=query.locationlong;
+
+            // searchTerm['location.long']=query.locationlat;
+ 
         if(query.hourly_fee){
             searchTerm['hourly_fee']={"$gte": query.hourly_fee};
         }
@@ -164,7 +181,10 @@ db.once('open', function() {
             if(err) return console.error(err);
             res.json(docs);
         })
-        .sort({ prefered_date:-1 });        
+        // .then(() => {
+        // return User.findById(req.params._id);
+        // })        
+        .sort({ preferred_date:1 });        
     });
     
     // update by id

@@ -19,6 +19,17 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+      //We're hard coding default location as Fairfield, Iowa in case Webbrowser didn't enable location which happens often 
+      localStorage.setItem('locationLong', '-91.9689413');
+      localStorage.setItem('locationLat', '41.016605299999995');
+       if(navigator.geolocation){
+        navigator.geolocation.getCurrentPosition(data => {
+          
+          localStorage.setItem('locationLong', JSON.stringify(data.coords.longitude));
+          localStorage.setItem('locationLat', JSON.stringify(data.coords.latitude));
+        });
+      }
+
   }
 
 }
