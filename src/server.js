@@ -105,10 +105,10 @@ db.once('open', function() {
         coords[0] = req.headers.longitude || 0;
         coords[1] = req.headers.latitude || 0;
         maxDistance=10;
-        console.log("coords:"+coords);
+        console.log("coords:"+coords[0]+' '+coords[1]);
         //Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
         Job.find({      
-                        loc: {
+                        location: {
                         $near: coords,
                         //$maxDistance: maxDistance
                     }

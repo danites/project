@@ -18,8 +18,8 @@ export class DbService {
 
     getJobs() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.http.get(this.dbport+'/jobs',this.options).map(res => res.json());
-        //return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+        // return this.http.get(this.dbport+'/jobs',this.options).map(res => res.json());
+        return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobstoday() {

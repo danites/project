@@ -59,7 +59,8 @@ export class JobaddComponent implements OnInit {
 
   addJob() {
     var job = this.addJobForm.value;
-    // job["preferred_date"] = Date.now();
+    job["location"] = [-91.968,41.0166];
+    // job["location"] =null;
     this.jobService.addJob(job).subscribe(
       res => {
         var newJob = res.json();
