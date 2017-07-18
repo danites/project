@@ -24,8 +24,7 @@ export class JobaddComponent implements OnInit {
   private category = new FormControl("", Validators.required);
   private hourly_fee = new FormControl("", Validators.required);
   private preferred_date = new FormControl("", Validators.required);
-  private longtitude = new FormControl("", Validators.required);
-  private latitude = new FormControl("", Validators.required);
+  private location = new FormControl("", Validators.required);
   // private prefered_time = new FormControl("", Validators.required);
 
   private infoMsg = { body: "", type: "info" };
@@ -43,8 +42,10 @@ export class JobaddComponent implements OnInit {
       category: this.category,
       preferred_date: this.preferred_date,
       hourly_fee: this.hourly_fee,
-      longtitude: this.longtitude,
-      latitude: this.latitude
+			location: this.formBuilder.group({
+				'longtitude': ['', [Validators.required]],
+				'latitude': ['', [Validators.required]],
+			}),
     });
   }
 
