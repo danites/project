@@ -1,0 +1,34 @@
+<form class="" [formGroup]="searchJobForm" (ngSubmit)="searchJob()">
+  <div class="container">
+    <div class="row">
+      <div class="form-group col-md-12 bg-primary row-header">
+        <label class="control-label">JOB SEARCH</label>
+      </div>
+
+      <div class="form-group col-md-3">
+        <label class="control-label" for="category">Category</label>
+        <div class="controls">
+          <input id="s_category" name="s_category" type="text" class="form-control" formControlName="s_category">
+        </div>
+      </div>
+
+      <div class="form-group col-md-3">
+        <label class="control-label" for="min_fee">Minimun fee</label>
+        <div class="controls">
+          <input id="s_min_fee" name="s_min_fee" type="text" class="form-control" formControlName="s_min_fee">
+        </div>
+      </div>
+
+      <div class="form-group col-md-1 text-right">
+        <div class="control-group confirm-btn">
+          <label class="control-label" for="placeorderbtn">&nbsp;</label>
+          <div class="controls">
+            <button class="btn btn-primary" type="submit">Search Job</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="dividerblue">
+  </div>
+</form>
