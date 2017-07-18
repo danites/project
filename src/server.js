@@ -157,12 +157,7 @@ db.once('open', function() {
         if(query.category){
             searchTerm['category']=query.category;
         }
-        var coords = [];  
-        if(query.longtitude && query.latitude){
-            coords[0] = query.longtitude || 0;
-            coords[1] = query.latitude || 0;
 
-        }
         if(query.category){
             searchTerm['category']=query.category;
         }                
@@ -177,6 +172,14 @@ db.once('open', function() {
         }
 
         console.log(searchTerm);
+
+        var coords = [];  
+        if(query.longtitude && query.latitude){
+            coords[0] = query.longtitude || 0;
+            coords[1] = query.latitude || 0;
+
+        }
+                
         Job.find(searchTerm, function(err, docs) {
             if(err) return console.error(err);
             res.json(docs);
