@@ -36,7 +36,17 @@ body {
     margin: 20px auto 15px;
     position: relative;
     height: 1px;
-    border-bottom: 1px solid #ddd;
+      /* border-bottom: 1px solid #ddd;   */
+      border-bottom: 1px solid #27afb7  
+    /* background-color: #428bca; */
+}
+
+.dividerblue {
+    width: 100%;
+    margin: 20px auto 15px;
+    position: relative;
+    height: 1px;
+    background-color: #428bca; 
 }
 
 .text-uppercase {
