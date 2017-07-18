@@ -55,6 +55,7 @@ export class DbService {
     }
 
     searchJob(category, hourly_fee) {
+        console.log('dbservice:'+category + ', '  +hourly_fee)
         let params = new URLSearchParams();
         if(category)
             params.set('category', category);
@@ -63,7 +64,10 @@ export class DbService {
         params.set('longtitude',localStorage.getItem('locationLong'));
         params.set('latitude', localStorage.getItem('locationLat'));
         //return this.http.put(this.dbport+"/search/"+job._id, JSON.stringify(job), this.options);
-        return this.http.get(this.dbport+"/search/",  { search: params });
+        // return this.http.get(this.dbport+"/search/",  { search: params });
+        return this.http.get(this.dbport+"/search/", this.options).map(res => res.json());
+        //return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+
     }
     
 
