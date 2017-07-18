@@ -25,7 +25,9 @@ export class JobaddComponent implements OnInit {
   private hourly_fee = new FormControl("", Validators.required);
   private preferred_date = new FormControl("", Validators.required);
   private location = new FormControl("", Validators.required);
-  // private prefered_time = new FormControl("", Validators.required);
+  // private longtitude = new FormControl("", Validators.required);
+  // private latitude = new FormControl("", Validators.required);
+
 
   private infoMsg = { body: "", type: "info" };
 
@@ -65,6 +67,7 @@ export class JobaddComponent implements OnInit {
    // job["location"] = [-94.968,44.0166];
     job["location"] = [job["location"]["longtitude"],job["location"]["latitude"]];
     // job["location"] =null;
+
     this.jobService.addJob(job).subscribe(
       res => {
         var newJob = res.json();

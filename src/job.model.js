@@ -12,7 +12,6 @@ var jobSchema = mongoose.Schema({
     //     long:Number,
     //     lat:Number
     // },
-    // preferred_date : { type : Date, default: Date.now },
     location: {
         type: [Number, Number],  // [<longitude>, <latitude>]
         index: '2d'      // create the geospatial index
@@ -21,12 +20,12 @@ var jobSchema = mongoose.Schema({
     preferred_date : { type : Date},
     hourly_fee: Number,
     candidates : [{
-    userId : String,
-    applied_date : Date
+        userId : String,
+        userName: String,
+        applied_date : Date
      }],
     hired_user_id: String,
-    hired_userName:String
-    
+    hired_userName:String    
 });
 
 var Job = mongoose.model('job', jobSchema);
