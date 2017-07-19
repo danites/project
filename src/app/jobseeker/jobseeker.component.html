@@ -54,6 +54,7 @@
         <th>Preferred Date</th>
         <th>Hourly Fee</th>
         <th>Description</th>
+        <th>Rating</th>
         <th></th>
       </tr>
     </thead>
@@ -70,9 +71,10 @@
         <td>{{job.preferred_date}}</td>
         <td>{{job.hourly_fee}}</td>
         <td>{{job.description}}</td>
-        <td class="text-right">
+        <!-- <td class="text-right">
           <button class="btn btn-sm btn-warning" (click)="ratingToEmp(job)"><i class="fa fa-pencil"></i> Rate</button>
-        </td>
+        </td> -->
+        <app-rateuser jobId="{{job._id}}" flag="fromseeker"></app-rateuser>
       </tr>
     </tbody>
     <tfoot>

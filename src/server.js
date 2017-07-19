@@ -174,7 +174,6 @@ db.once('open', function () {
     app.get('/job/:id', function (req, res) {
         Job.findOne({ _id: req.params.id }, function (err, obj) {
             if (err) return console.error(err);
-
             res.json(obj);
         })
     });
@@ -328,7 +327,14 @@ db.once('open', function () {
 
     // Hiring candidate
     app.put('/hireCandidate/:id', function (req, res) {
+        Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
+            if (err) return console.error(err);
+            res.sendStatus(200);
+        })
+    });
 
+    // Rating user
+    app.put('/hireCandidate/:id', function (req, res) {
         Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
             if (err) return console.error(err);
             res.sendStatus(200);

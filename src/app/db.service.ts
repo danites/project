@@ -82,6 +82,12 @@ export class DbService {
         return this.http.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
     }
 
+    getJobById(id) {
+       // console.log('getJobById:'+id);
+        return this.http.get(this.dbport + "/job/" + id, this.options).map(res => res.json());
+    }
+
+
     applyJob(job) {
         return this.http.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
     }
@@ -122,7 +128,18 @@ export class DbService {
         return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
     }
 
-    ratingToEmp(id) {
-        return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+    rateNow(job,comment,rating, flag) {
+        if(comment && rating && flag){
+                if(flag == "fromseeker"){
+                    job["commentToEmp"] = comment;
+                    job["ratingToEmp"] = rating;
+                }
+                else{
+                    job["ratingToSeeker"] = comment;
+                    job["commentToSeeker"] = rating;                    
+                }
+               // console.log("rateing:"+JSON.stringify(job));
+            }
+        return this.http.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
     }
 }

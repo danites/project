@@ -19,6 +19,7 @@ import { JobaddComponent } from './jobadd/jobadd.component';
 import { JobseekerComponent } from './jobseeker/jobseeker.component';
 import { JobemployerComponent } from './jobemployer/jobemployer.component';
 import { GetcandidatesComponent } from './getcandidates/getcandidates.component';
+import { RateuserComponent } from './rateuser/rateuser.component';
 // import {enableProdMode} from '@angular/core';
 // enableProdMode();
 
@@ -32,7 +33,8 @@ import { GetcandidatesComponent } from './getcandidates/getcandidates.component'
     JobaddComponent,
     JobseekerComponent,
     JobemployerComponent,
-    GetcandidatesComponent
+    GetcandidatesComponent,
+    RateuserComponent
   ],
   imports: [
     BrowserModule,
