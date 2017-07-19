@@ -17,6 +17,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { JoblistComponent } from './joblist/joblist.component';
 import { JobaddComponent } from './jobadd/jobadd.component';
 import { JobseekerComponent } from './jobseeker/jobseeker.component';
+import { JobemployerComponent } from './jobemployer/jobemployer.component';
+import { GetcandidatesComponent } from './getcandidates/getcandidates.component';
 // import {enableProdMode} from '@angular/core';
 // enableProdMode();
 
@@ -28,7 +30,9 @@ import { JobseekerComponent } from './jobseeker/jobseeker.component';
     ProfileComponent,
     JoblistComponent,
     JobaddComponent,
-    JobseekerComponent
+    JobseekerComponent,
+    JobemployerComponent,
+    GetcandidatesComponent
   ],
   imports: [
     BrowserModule,

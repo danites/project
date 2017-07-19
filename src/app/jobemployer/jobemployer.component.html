@@ -1,5 +1,12 @@
 <div class="col-md-12 bg-primary row-header no-bottom-radius">
-  <label class="control-label">APPLIED JOB : {{jobs.length}}</label>
+  <label class="control-label">HIRING PRESENT : {{jobs.length}}</label>
+</div>
+
+<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+  <strong>Message:</strong> {{infoMsg.body}}
 </div>
 
 <div class="card-block">
@@ -26,7 +33,10 @@
         <td>{{job.category}}</td>
         <td>{{job.preferred_date}}</td>
         <td>{{job.hourly_fee}}</td>
-        <td>{{job.description}}</td>
+        <td>
+          {{job.description}}
+          <app-getcandidates jobId="{{job._id}}"></app-getcandidates>
+        </td>
       </tr>
     </tbody>
     <tfoot>
@@ -41,7 +51,7 @@
 <hr class="dividerblue"><br>
 
 <div class="col-md-12 bg-primary row-header no-bottom-radius">
-  <label class="control-label">HIRED LIST : {{jobs.length}}</label>
+  <label class="control-label">HIRED : {{jobs.length}}</label>
 </div>
 
 <div class="card-block">
