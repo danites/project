@@ -27,7 +27,7 @@ export class AuthService {
       //console.log(authResult);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
-        this.setSession(authResult);
+        this._getProfile(authResult);
         this.router.navigate(['/home']);
       } else if (err) {
         this.router.navigate(['/home']);
@@ -37,7 +37,16 @@ export class AuthService {
     });
   }
 
-  private setSession(authResult): void {
+  private _getProfile(authResult) {
+    // Use access token to retrieve user's profile and set session
+    this.auth0.client.userInfo(authResult.accessToken, (err, profile) => {
+      //this.setSession(authResult);
+
+      this.setSession(authResult, profile);
+    });
+  }
+
+  private setSession(authResult,profile): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
     // console.log(authResult);
@@ -47,6 +56,7 @@ export class AuthService {
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
+    localStorage.setItem('profile', JSON.stringify(profile));
   }
 
   public logout(): void {
