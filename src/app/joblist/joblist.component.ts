@@ -18,6 +18,7 @@ export class JoblistComponent implements OnInit {
   private isLoading = true;
   private isEditing = false;
 
+  private myId:String;
   private searchJobForm: FormGroup;
   private s_category = new FormControl("", Validators.required);
   private s_min_fee = new FormControl("", Validators.required);
@@ -29,7 +30,7 @@ export class JoblistComponent implements OnInit {
 
   ngOnInit() {
     this.getJobs();
-
+    this.myId = localStorage.getItem('uniqueUser_token')
     this.searchJobForm = this.formBuilder.group({
       s_category: this.s_category,
       s_min_fee: this.s_min_fee
