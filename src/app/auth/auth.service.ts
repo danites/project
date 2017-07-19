@@ -3,17 +3,26 @@ import { AUTH_CONFIG } from './auth0-variables';
 import { Router } from '@angular/router';
 import 'rxjs/add/operator/filter';
 import * as auth0 from 'auth0-js';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class AuthService {
 
+  // auth0 = new auth0.WebAuth({
+  //   clientID: AUTH_CONFIG.clientID,
+  //   domain: AUTH_CONFIG.domain,
+  //   responseType: 'token id_token',
+  //   audience: `https://${AUTH_CONFIG.domain}/userinfo`,
+  //   redirectUri: 'http://localhost:4200/callback',
+  //   scope: 'openid profile'
+  // });
   auth0 = new auth0.WebAuth({
-    clientID: AUTH_CONFIG.clientID,
-    domain: AUTH_CONFIG.domain,
+    clientID: 'Q9fmCS4NZAHC1dqV0lVFGaVQRBhWta4a',
+    domain: 'dani-23.auth0.com',
     responseType: 'token id_token',
-    audience: `https://${AUTH_CONFIG.domain}/userinfo`,
+    audience: 'dani-23.com',
     redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid profile'
+    scope: 'openid profile email'
   });
 
   constructor(public router: Router) {}

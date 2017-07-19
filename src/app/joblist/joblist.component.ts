@@ -18,6 +18,7 @@ export class JoblistComponent implements OnInit {
   private isLoading = true;
   private isEditing = false;
 
+  private myId:String;
   private searchJobForm: FormGroup;
   private s_category = new FormControl("", Validators.required);
   private s_min_fee = new FormControl("", Validators.required);
@@ -29,7 +30,7 @@ export class JoblistComponent implements OnInit {
 
   ngOnInit() {
     this.getJobs();
-
+    this.myId = localStorage.getItem('uniqueUser_token')
     this.searchJobForm = this.formBuilder.group({
       s_category: this.s_category,
       s_min_fee: this.s_min_fee
@@ -37,8 +38,23 @@ export class JoblistComponent implements OnInit {
   }
 
   getJobs() {
-    this.jobService.getJobs().subscribe(
-      data => this.jobs = data,
+    this.jobService.getJobstoday().subscribe(
+      data => {
+        this.jobs = [];
+        data.forEach(element => {
+          let flag = false;
+          element.candidates.forEach(candidate => {
+            if(candidate.userId==this.myId)
+              {
+                flag = true;
+              }
+          });
+          if(!flag)
+            this.jobs.push(element);
+
+        });
+
+      },
       error => console.log(error),
       () => this.isLoading = false
     );
@@ -87,6 +103,7 @@ export class JoblistComponent implements OnInit {
     this.jobService.applyJob(job).subscribe(
       res => {
         this.sendInfoMsg("Applied for job successfully.", "success");
+        window.location.href = 'http://localhost:4200/joblist';
       },
       error => console.log(error)
     );

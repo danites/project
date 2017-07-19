@@ -9,14 +9,18 @@ import { environment } from '../environments/environment';
 @Injectable()
 export class DbService {
     dbport = 'http://localhost:4267';
-
+    //  private headers = new Headers({ 'Content-Type': 'application/json' });
+    // private options = new RequestOptions({ headers: this.headers });
+    // private token =  localStorage.getItem('access_token') && localStorage.getItem('id_token');
+    private token =  localStorage.getItem('uniqueUser_token') && localStorage.getItem('access_token');
     private headers = new Headers({
         'Content-Type': 'application/json',
         'longtitude': localStorage.getItem('locationLong') || 0,
         'latitude': localStorage.getItem('locationLat') || 0,
         'sender_userId': localStorage.getItem('uniqueUser_token') || 0,
         'sender_userName': localStorage.getItem('name') || 0,
-    
+        //'Bearer':  localStorage.getItem('id_token')
+            // 'bearer':localStorage.getItem('bearer')|| 0 });        
     });
     private options = new RequestOptions({ headers: this.headers });
 
@@ -24,7 +28,8 @@ export class DbService {
 
     getJobs() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.authhttp.get(this.dbport + '/jobs', this.options).map(res => res.json());
+        //return this.authhttp.get(this.dbport + '/jobs', this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobs`).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
@@ -70,6 +75,8 @@ export class DbService {
 
     addJob(job) {
         var userId = localStorage['uniqueUser_token'];
+        var userName = localStorage['name'];
+        
         if (!userId) {
             console.log('Unauthorized user');
             return null;
@@ -77,6 +84,7 @@ export class DbService {
             //return "Unathorized user";
         }
         job["userId"] = userId;
+        job["userName"] = userName;
         return this.authhttp.post(this.dbport + "/job", JSON.stringify(job), this.options);
     }
 
