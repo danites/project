@@ -10,7 +10,7 @@
         <p> {{myComment}}</p> 
         <p> {{myRating}}</p> 
      </div>
-
+    
      <div *ngIf ="editMode == 'true'">
         <div *ngIf="myComment == ''">
           <select id="ddlViewBy" required #B>
@@ -23,6 +23,6 @@
           <textarea col="15" row="10" #A required></textarea> <br>
           <button class="btn btn-sm btn-success" (click)="rateNow(A.value,B.value)"><i class="fa fa-trash"></i>Send rating</button>
 
-      </div>
+       </div> 
      </div>
 <p>

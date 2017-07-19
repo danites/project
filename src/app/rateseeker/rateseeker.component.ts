@@ -1,5 +1,4 @@
-///ratingToEmployee from Seeker
-
+///ratingToSeeker from Employee
 import { Component, OnInit, Input ,ViewChild} from '@angular/core';
 import { AuthService } from './../auth/auth.service';
 import { Router } from '@angular/router';
@@ -10,11 +9,12 @@ import { DbService } from '../db.service';
 
 
 @Component({
-  selector: 'app-rateuser',
-  templateUrl: './rateuser.component.html',
-  styleUrls: ['./rateuser.component.css']
+  selector: 'app-rateseeker',
+  templateUrl: './rateseeker.component.html',
+  styleUrls: ['./rateseeker.component.css']
 })
-export class RateuserComponent implements OnInit {
+export class RateseekerComponent implements OnInit {
+
   @Input() jobId;
   @Input() flag;
   @Input() editMode;
@@ -35,8 +35,12 @@ export class RateuserComponent implements OnInit {
     this.jobService.getJobById(this.jobId).subscribe(
       data => {
         this.job = data;
-        this.myComment = data.commentToEmp || '';
-        this.myRating = data.ratingToEmp || '';
+        this.myComment = data.ratingToSeeker || '';
+        this.myRating = data.commentToSeeker || '';
+        // ratingToEmp:Number,
+        // commentToEmp:String,
+        // ratingToSeeker:Number,
+        // commentToSeeker:String    
       },
       error => console.log(error)
     );
@@ -53,6 +57,7 @@ export class RateuserComponent implements OnInit {
       res => {
         this.myComment =comment;
         this.myRating =rating;
+
         this.sendInfoMsg("Rated Successfully.", "success");
       },
       error => console.log(error)

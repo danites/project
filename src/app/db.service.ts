@@ -129,14 +129,20 @@ export class DbService {
     }
 
     rateNow(job,comment,rating, flag) {
+        // console.log('rating in dbService jobid:'+job._id);
+        // console.log('rating in dbService comment:'+comment);
+        // console.log('rating in dbService rating:'+rating);
+        // console.log('rating in dbService flag:'+flag);
+
         if(comment && rating && flag){
                 if(flag == "fromseeker"){
-                    job["commentToEmp"] = comment;
                     job["ratingToEmp"] = rating;
+                    job["commentToEmp"] = comment;
+                    
                 }
                 else{
-                    job["ratingToSeeker"] = comment;
-                    job["commentToSeeker"] = rating;                    
+                    job["ratingToSeeker"] = rating;
+                    job["commentToSeeker"] = comment;                    
                 }
                // console.log("rateing:"+JSON.stringify(job));
             }
