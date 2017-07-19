@@ -42,7 +42,7 @@ export class GetcandidatesComponent implements OnInit {
       error => console.log(error)
     );
 
-    this.router.navigate(['../../'], { relativeTo: this.route });
+    window.location.href = 'http://localhost:4200/jobemployer';
   }
 
   sendInfoMsg(body, type, time = 3000) {

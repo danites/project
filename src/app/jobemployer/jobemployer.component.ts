@@ -12,6 +12,8 @@ import { DbService } from '../db.service';
 export class JobemployerComponent implements OnInit {
 
   private jobs = [];
+  private jobsHired = [];
+
   private infoMsg = { body: "", type: "info" };
 
   constructor(public auth: AuthService, private http: Http,
@@ -19,11 +21,19 @@ export class JobemployerComponent implements OnInit {
 
   ngOnInit() {
     this.getPostedJobsByUser();
+    this.getJobsHiredByEmp();
   }
 
   getPostedJobsByUser() {
     this.jobService.getPostedJobsByUser().subscribe(
       data => this.jobs = data,
+      error => console.log(error)
+    );
+  }
+
+  getJobsHiredByEmp() {
+    this.jobService.getJobsHiredByEmp().subscribe(
+      data => this.jobsHired = data,
       error => console.log(error)
     );
   }

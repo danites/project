@@ -12,17 +12,33 @@ import { DbService } from '../db.service';
 export class JobseekerComponent implements OnInit {
 
   private jobs = [];
+  private jobsHired = [];
 
   constructor(public auth: AuthService, private http: Http,
     private jobService: DbService) { }
 
   ngOnInit() {
     this.getAppliedJobsByUser();
+    this.getJobsHiredOfSeeker();
   }
 
   getAppliedJobsByUser() {
     this.jobService.getAppliedJobsByUser().subscribe(
       data => this.jobs = data,
+      error => console.log(error)
+    );
+  }
+
+  getJobsHiredOfSeeker() {
+    this.jobService.getJobsHiredOfSeeker().subscribe(
+      data => this.jobsHired = data,
+      error => console.log(error)
+    );
+  }
+
+  ratingToEmp() {
+    this.jobService.ratingToEmp(45).subscribe(
+      data => this.jobsHired = data,
       error => console.log(error)
     );
   }
