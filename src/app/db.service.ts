@@ -2,67 +2,69 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/Rx';
 import { Router } from "@angular/router";
+import { AuthHttp } from 'angular2-jwt';
+import { AuthService } from './auth/auth.service';
+import { environment } from '../environments/environment';
 
 @Injectable()
 export class DbService {
     dbport = 'http://localhost:4267';
-    //  private headers = new Headers({ 'Content-Type': 'application/json' });
-    // private options = new RequestOptions({ headers: this.headers });
 
     private headers = new Headers({
         'Content-Type': 'application/json',
         'longtitude': localStorage.getItem('locationLong') || 0,
         'latitude': localStorage.getItem('locationLat') || 0,
         'sender_userId': localStorage.getItem('uniqueUser_token') || 0,
-        'sender_userName': localStorage.getItem('name') || 0
+        'sender_userName': localStorage.getItem('name') || 0,
+    
     });
     private options = new RequestOptions({ headers: this.headers });
 
-    constructor(private http: Http, private router: Router) { }
+    constructor(private http: Http, private router: Router, private auth: AuthService, private authhttp:AuthHttp) { }
 
     getJobs() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.http.get(this.dbport + '/jobs', this.options).map(res => res.json());
+        return this.authhttp.get(this.dbport + '/jobs', this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobstoday() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.http.get(this.dbport + '/jobstoday').map(res => res.json());
+        return this.authhttp.get(this.dbport + '/jobstoday').map(res => res.json());
     }
 
     getJobstodaylimit10() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.http.get(this.dbport + '/jobstodaylimit10').map(res => res.json());
+        return this.authhttp.get(this.dbport + '/jobstodaylimit10').map(res => res.json());
     }
 
     getJobstodaynearlimit10() {
         //return this.http.get('/jobs'); //.map(res => res.json())
 
-        return this.http.get(this.dbport + '/jobstodaynearlimit10').map(res => res.json());
+        return this.authhttp.get(this.dbport + '/jobstodaynearlimit10').map(res => res.json());
     }
 
     getAppliedJobsByUser() {
         var userId = localStorage['uniqueUser_token'];
-        return this.http.get(this.dbport + '/jobsByUser/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(this.dbport + '/jobsByUser/' + userId, this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobsHiredOfSeeker() {
         var userId = localStorage['uniqueUser_token'];
-        return this.http.get(this.dbport + '/getJobsHiredOfSeeker/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(this.dbport + '/getJobsHiredOfSeeker/' + userId, this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getPostedJobsByUser() {
         var userId = localStorage['uniqueUser_token'];
-        return this.http.get(this.dbport + '/jobsPostedByUser/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(this.dbport + '/jobsPostedByUser/' + userId, this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobsHiredByEmp() {
         var userId = localStorage['uniqueUser_token'];
-        return this.http.get(this.dbport + '/getJobsHiredByEmp/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(this.dbport + '/getJobsHiredByEmp/' + userId, this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
@@ -75,21 +77,27 @@ export class DbService {
             //return "Unathorized user";
         }
         job["userId"] = userId;
-        return this.http.post(this.dbport + "/job", JSON.stringify(job), this.options);
+        return this.authhttp.post(this.dbport + "/job", JSON.stringify(job), this.options);
     }
 
     editJob(job) {
-        return this.http.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
     }
 
+    getJobById(id) {
+       // console.log('getJobById:'+id);
+        return this.authhttp.get(this.dbport + "/job/" + id, this.options).map(res => res.json());
+    }
+
+
     applyJob(job) {
-        return this.http.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
     }
     
     hireCandidate(job, hiredUserId, hiredUserName) {
         job["hired_user_id"] = hiredUserId;
         job["hired_userName"] = hiredUserName;
-        return this.http.put(this.dbport + "/hireCandidate/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(this.dbport + "/hireCandidate/" + job._id, JSON.stringify(job), this.options);
     }
 
     searchJob(category, hourly_fee) {
@@ -109,20 +117,37 @@ export class DbService {
         //return this.http.put(this.dbport+"/search/"+job._id, JSON.stringify(job), this.options);
         //return this.http.get(this.dbport+"/jobsearch/",  { search: params });
 
-        return this.http.get(this.dbport + param, this.options).map(res => res.json());
+        return this.authhttp.get(this.dbport + param, this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
 
     }
 
     deleteJob(job) {
-        return this.http.delete(this.dbport + "/job/" + job._id);
+        return this.authhttp.delete(this.dbport + "/job/" + job._id);
     }
 
     getCandidatesByJob(id) {
-        return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+        return this.authhttp.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
     }
 
-    ratingToEmp(id) {
-        return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+    rateNow(job,comment,rating, flag) {
+        // console.log('rating in dbService jobid:'+job._id);
+        // console.log('rating in dbService comment:'+comment);
+        // console.log('rating in dbService rating:'+rating);
+        // console.log('rating in dbService flag:'+flag);
+
+        if(comment && rating && flag){
+                if(flag == "fromseeker"){
+                    job["ratingToEmp"] = rating;
+                    job["commentToEmp"] = comment;
+                    
+                }
+                else{
+                    job["ratingToSeeker"] = rating;
+                    job["commentToSeeker"] = comment;                    
+                }
+               // console.log("rateing:"+JSON.stringify(job));
+            }
+        return this.authhttp.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
     }
 }

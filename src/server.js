@@ -1,5 +1,6 @@
 var express = require('express');
 var jwt = require('express-jwt');
+var jwks = require('jwks-rsa');
 var cors = require('cors');
 var vm = require('js-vm');
 var morgan = require('morgan'); // logger
@@ -50,12 +51,21 @@ app.use(function (req, res, next) {
     next();
 });
 
-var authCheck = jwt({
-    secret: new Buffer('s1Xj11O6v6_2kBLMFY7qsahqrlM8LXoBgZEAI6ABuJWRqvaXJ3iU48Ats8lYvdRc'),
-    audience: 'Q9fmCS4NZAHC1dqV0lVFGaVQRBhWta4a'
+var jwtCheck = jwt({
+    secret: jwks.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 5,
+        jwksUri: "https://dani-23.auth0.com/.well-known/jwks.json"
+    }),
+    audience: 'dani-23.com',
+    issuer: "https://dani-23.auth0.com/",
+    algorithms: ['RS256']
 });
 
-app.get('/', authCheck, function (req, res) {
+app.use(jwtCheck);
+
+app.get('/', function (req, res) {
 
     app.use('/', express.static(__dirname + '/public'));
 
@@ -174,7 +184,6 @@ db.once('open', function () {
     app.get('/job/:id', function (req, res) {
         Job.findOne({ _id: req.params.id }, function (err, obj) {
             if (err) return console.error(err);
-
             res.json(obj);
         })
     });
@@ -328,7 +337,14 @@ db.once('open', function () {
 
     // Hiring candidate
     app.put('/hireCandidate/:id', function (req, res) {
+        Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
+            if (err) return console.error(err);
+            res.sendStatus(200);
+        })
+    });
 
+    // Rating user
+    app.put('/hireCandidate/:id', function (req, res) {
         Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
             if (err) return console.error(err);
             res.sendStatus(200);

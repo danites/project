@@ -25,7 +25,11 @@ var jobSchema = mongoose.Schema({
         applied_date : Date
      }],
     hired_user_id: String,
-    hired_userName:String    
+    hired_userName:String,
+    ratingToEmp:Number,
+    commentToEmp:String,
+    ratingToSeeker:Number,
+    commentToSeeker:String         
 });
 
 var Job = mongoose.model('job', jobSchema);

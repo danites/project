@@ -1,3 +1,4 @@
+<h2>Employeer</h2>
 <div class="col-md-12 bg-primary row-header no-bottom-radius">
   <label class="control-label">HIRING PRESENT : {{jobs.length}}</label>
 </div>
@@ -64,6 +65,8 @@
         <th>Preferred Date</th>
         <th>Hourly Fee</th>
         <th>Description</th>
+        <th>Rating from Worker</th>
+        <th>Rating to Worker</th>
         <th></th>
       </tr>
     </thead>
@@ -80,9 +83,9 @@
         <td>{{job.preferred_date}}</td>
         <td>{{job.hourly_fee}}</td>
         <td>{{job.description}}</td>
-        <td class="text-right">
-          <button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Rate</button>
-        </td>
+
+        <td><app-rateuser jobId="{{job._id}}" flag="fromseeker" editMode="false"></app-rateuser></td>
+        <td><app-rateseeker jobId="{{job._id}}" flag="fromempl" editMode="true"></app-rateseeker></td>
       </tr>
     </tbody>
     <tfoot>

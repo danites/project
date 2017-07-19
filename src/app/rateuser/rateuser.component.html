@@ -1,0 +1,28 @@
+<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+  <strong>Message:</strong> {{infoMsg.body}}
+</div>
+
+<p>
+      <div *ngIf="(myComment | json) != '{}'">
+        <p> {{myComment}}</p> 
+        <p> {{myRating}}</p> 
+     </div>
+
+     <div *ngIf ="editMode == 'true'">
+        <div *ngIf="myComment == ''">
+          <select id="ddlViewBy" required #B>
+            <option value="1"  selected="selected">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+          <textarea col="15" row="10" #A required></textarea> <br>
+          <button class="btn btn-sm btn-success" (click)="rateNow(A.value,B.value)"><i class="fa fa-trash"></i>Send rating</button>
+
+      </div>
+     </div>
+<p>

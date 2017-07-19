@@ -36,10 +36,5 @@ export class JobseekerComponent implements OnInit {
     );
   }
 
-  ratingToEmp() {
-    this.jobService.ratingToEmp(45).subscribe(
-      data => this.jobsHired = data,
-      error => console.log(error)
-    );
-  }
+
 }

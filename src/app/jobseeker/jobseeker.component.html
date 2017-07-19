@@ -1,3 +1,4 @@
+<h2>Job seeker</h2>
 <div class="col-md-12 bg-primary row-header no-bottom-radius">
   <label class="control-label">APPLIED JOB : {{jobs.length}}</label>
 </div>
@@ -54,6 +55,9 @@
         <th>Preferred Date</th>
         <th>Hourly Fee</th>
         <th>Description</th>
+        
+        <th>Rating to Employee</th>
+        <th>Rating from Employee</th>
         <th></th>
       </tr>
     </thead>
@@ -70,9 +74,12 @@
         <td>{{job.preferred_date}}</td>
         <td>{{job.hourly_fee}}</td>
         <td>{{job.description}}</td>
-        <td class="text-right">
+        <!-- <td class="text-right">
           <button class="btn btn-sm btn-warning" (click)="ratingToEmp(job)"><i class="fa fa-pencil"></i> Rate</button>
-        </td>
+        </td> -->
+        <td><app-rateuser jobId="{{job._id}}" flag="fromseeker" editMode="true"></app-rateuser></td>
+        <td><app-rateseeker jobId="{{job._id}}" flag="fromempl" editMode="false"></app-rateseeker></td>
+        
       </tr>
     </tbody>
     <tfoot>
