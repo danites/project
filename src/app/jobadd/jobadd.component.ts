@@ -28,7 +28,6 @@ export class JobaddComponent implements OnInit {
   // private longtitude = new FormControl("", Validators.required);
   // private latitude = new FormControl("", Validators.required);
 
-
   private infoMsg = { body: "", type: "info" };
 
   constructor(public auth: AuthService, private http: Http,

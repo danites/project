@@ -1,3 +1,10 @@
+<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+  <strong>Message:</strong> {{infoMsg.body}}
+</div>
+
 <form class="" [formGroup]="searchJobForm" (ngSubmit)="searchJob()">
   <div class="container">
     <div class="row">
@@ -17,7 +24,7 @@
         <div class="controls">
           <input id="s_min_fee" name="s_min_fee" type="number" class="form-control" formControlName="s_min_fee">
         </div>
-      </div>      
+      </div>
 
       <div class="form-group col-md-1 text-right">
         <div class="control-group confirm-btn">
@@ -66,7 +73,7 @@
           <td>{{job.description}}</td>
           <td class="text-right">
             <button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Edit</button>
-            <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>&emsp;|&emsp;             
+            <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>&emsp;|&emsp;
             <button class="btn btn-sm btn-primary" (click)="applyJob(job)"><i class="fa fa-trash"></i> Apply</button>
           </td>
         </tr>

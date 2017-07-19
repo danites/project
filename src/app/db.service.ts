@@ -73,6 +73,12 @@ export class DbService {
     applyJob(job) {
         return this.http.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
     }
+    
+    hireCandidate(job, hiredUserId, hiredUserName) {
+        job["hired_user_id"] = hiredUserId;
+        job["hired_userName"] = hiredUserName;
+        return this.http.put(this.dbport + "/hireCandidate/" + job._id, JSON.stringify(job), this.options);
+    }
 
     searchJob(category, hourly_fee) {
         //console.log('dbservice:'+category + ', '  +hourly_fee)
@@ -100,7 +106,7 @@ export class DbService {
         return this.http.delete(this.dbport + "/job/" + job._id);
     }
 
-    getCandidatesByJob(jobId) {
-        return this.http.get(this.dbport + '/getcandidatesbyjob/jobId/' + jobId).map(res => res.json());
+    getCandidatesByJob(id) {
+        return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
     }
 }

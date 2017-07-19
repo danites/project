@@ -273,7 +273,6 @@ db.once('open', function () {
                 applied_date: Date.now()
             });
 
-            console.log(job['candidates']);
             Job.findOneAndUpdate({ _id: req.params.id }, job, function (err) {
                 if (err) return console.error(err);
                 res.sendStatus(200);
@@ -285,9 +284,9 @@ db.once('open', function () {
 
     // Jobs by Posted User
     app.get('/jobsPostedByUser/:id', function (req, res) {
-        let qq = String(req.params.id);
+        let id = String(req.params.id);
 
-        Job.find({ "userId": qq }, function (err, obj) {
+        Job.find({ "userId": id, "hired_user_id" : {$eq: null} }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
@@ -302,6 +301,15 @@ db.once('open', function () {
             if (err) return console.error(err);
 
             res.json(obj);
+        })
+    });
+
+    // Hiring candidate
+    app.put('/hireCandidate/:id', function (req, res) {
+
+        Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
+            if (err) return console.error(err);
+            res.sendStatus(200);
         })
     });
 

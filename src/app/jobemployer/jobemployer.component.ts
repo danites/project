@@ -12,6 +12,7 @@ import { DbService } from '../db.service';
 export class JobemployerComponent implements OnInit {
 
   private jobs = [];
+  private infoMsg = { body: "", type: "info" };
 
   constructor(public auth: AuthService, private http: Http,
     private jobService: DbService) { }
@@ -26,4 +27,12 @@ export class JobemployerComponent implements OnInit {
       error => console.log(error)
     );
   }
+
+  sendInfoMsg(body, type, time = 3000) {
+    this.infoMsg.body = body;
+    this.infoMsg.type = type;
+    window.setTimeout(() => this.infoMsg.body = "", time);
+  }
+
+
 }

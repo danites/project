@@ -1,6 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { AuthService } from './../auth/auth.service';
+import { Router } from '@angular/router';
 import { Http } from '@angular/http';
+import { ActivatedRoute } from '@angular/router';
 
 import { DbService } from '../db.service';
 
@@ -16,7 +18,9 @@ export class GetcandidatesComponent implements OnInit {
   private job = [];
 
   constructor(public auth: AuthService, private http: Http,
-    private jobService: DbService) { }
+    private jobService: DbService, private router: Router, private activeRoute: ActivatedRoute) { }
+
+  private infoMsg = { body: "", type: "info" };
 
   ngOnInit() {
     this.getCandidatesByJob();
@@ -27,6 +31,24 @@ export class GetcandidatesComponent implements OnInit {
       data => this.job = data,
       error => console.log(error)
     );
+  }
+
+  hireCandidate(userId, hiredUserName) {
+    this.jobService.hireCandidate(this.job, userId, hiredUserName).subscribe(
+      res => {
+
+        this.sendInfoMsg("Hired Successfully.", "success");
+      },
+      error => console.log(error)
+    );
+
+    this.router.navigate(['../../'], { relativeTo: this.route });
+  }
+
+  sendInfoMsg(body, type, time = 3000) {
+    this.infoMsg.body = body;
+    this.infoMsg.type = type;
+    window.setTimeout(() => this.infoMsg.body = "", time);
   }
 
 }

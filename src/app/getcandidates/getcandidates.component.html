@@ -1,3 +1,13 @@
+<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+  <strong>Message:</strong> {{infoMsg.body}}
+</div>
+
 <ul *ngFor="let candidate of job.candidates; let i = index">
-  <li>{{candidate}}</li>
+  <li>
+    {{candidate.userName}}
+    <button class="btn btn-sm btn-success" (click)="hireCandidate(candidate.userId, candidate.userName)"><i class="fa fa-trash"></i> Hire</button>
+  </li>
 </ul>
