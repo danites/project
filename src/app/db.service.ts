@@ -48,9 +48,21 @@ export class DbService {
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
+    getJobsHiredOfSeeker() {
+        var userId = localStorage['uniqueUser_token'];
+        return this.http.get(this.dbport + '/getJobsHiredOfSeeker/' + userId, this.options).map(res => res.json());
+        // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+    }
+
     getPostedJobsByUser() {
         var userId = localStorage['uniqueUser_token'];
         return this.http.get(this.dbport + '/jobsPostedByUser/' + userId, this.options).map(res => res.json());
+        // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+    }
+
+    getJobsHiredByEmp() {
+        var userId = localStorage['uniqueUser_token'];
+        return this.http.get(this.dbport + '/getJobsHiredByEmp/' + userId, this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
@@ -107,6 +119,10 @@ export class DbService {
     }
 
     getCandidatesByJob(id) {
+        return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+    }
+
+    ratingToEmp(id) {
         return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
     }
 }

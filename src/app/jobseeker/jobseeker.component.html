@@ -41,7 +41,7 @@
 <hr class="dividerblue"><br>
 
 <div class="col-md-12 bg-primary row-header no-bottom-radius">
-  <label class="control-label">HIRED LIST : {{jobs.length}}</label>
+  <label class="control-label">HIRED LIST : {{jobsHired.length}}</label>
 </div>
 
 <div class="card-block">
@@ -57,13 +57,13 @@
         <th></th>
       </tr>
     </thead>
-    <tbody *ngIf="jobs.length === 0">
+    <tbody *ngIf="jobsHired.length === 0">
       <tr>
         <td colspan="4">There are no jobs in the DB. Add a new job below.</td>
       </tr>
     </tbody>
     <tbody *ngIf="!isEditing">
-      <tr *ngFor="let job of jobs; let i = index">
+      <tr *ngFor="let job of jobsHired; let i = index">
         <td>{{i+1}}.</td>
         <td>{{job.name}}</td>
         <td>{{job.category}}</td>
@@ -71,14 +71,13 @@
         <td>{{job.hourly_fee}}</td>
         <td>{{job.description}}</td>
         <td class="text-right">
-          <button class="btn btn-sm btn-warning" (click)="enableEditing(job)"><i class="fa fa-pencil"></i> Edit</button>
-          <button class="btn btn-sm btn-danger" (click)="deleteJob(job)"><i class="fa fa-trash"></i> Delete</button>
+          <button class="btn btn-sm btn-warning" (click)="ratingToEmp(job)"><i class="fa fa-pencil"></i> Rate</button>
         </td>
       </tr>
     </tbody>
     <tfoot>
       <tr>
-        <th colspan="7">Total: {{ jobs.length }}</th>
+        <th colspan="7">Total: {{ jobsHired.length }}</th>
       </tr>
     </tfoot>
   </table>

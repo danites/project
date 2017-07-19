@@ -183,7 +183,18 @@ db.once('open', function () {
         //db.jobs.find({"candidates.userId":{$eq:"google-oauth2|104225564315616177259"}}).pretty()
         let qq = String(req.params.id);
 
-        Job.find({ "candidates.userId": qq }, function (err, obj) {
+        Job.find({ "candidates.userId": qq, "hired_user_id": {$eq : null}}, function (err, obj) {
+            if (err) return console.error(err);
+
+            res.json(obj);
+        })
+    });
+
+    // Jobs Hired For JobSeeker
+    app.get('/getJobsHiredOfSeeker/:id', function (req, res) {
+        let qq = String(req.params.id);
+
+        Job.find({"hired_user_id": qq}, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
@@ -287,6 +298,17 @@ db.once('open', function () {
         let id = String(req.params.id);
 
         Job.find({ "userId": id, "hired_user_id" : {$eq: null} }, function (err, obj) {
+            if (err) return console.error(err);
+
+            res.json(obj);
+        })
+    });
+
+    // Hired Jobs by Employer
+    app.get('/getJobsHiredByEmp/:id', function (req, res) {
+        let id = String(req.params.id);
+
+        Job.find({ "userId": id, "hired_user_id" : {$ne: null} }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
