@@ -69,6 +69,7 @@ mongoose.Promise = global.Promise;
 
 // Models
 var Job = require('./job.model.js');
+var User = require('./user.model.js');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -183,7 +184,7 @@ db.once('open', function () {
         //db.jobs.find({"candidates.userId":{$eq:"google-oauth2|104225564315616177259"}}).pretty()
         let qq = String(req.params.id);
 
-        Job.find({ "candidates.userId": qq, "hired_user_id": {$eq : null}}, function (err, obj) {
+        Job.find({ "candidates.userId": qq, "hired_user_id": { $eq: null } }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
@@ -194,7 +195,7 @@ db.once('open', function () {
     app.get('/getJobsHiredOfSeeker/:id', function (req, res) {
         let qq = String(req.params.id);
 
-        Job.find({"hired_user_id": qq}, function (err, obj) {
+        Job.find({ "hired_user_id": qq }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
@@ -297,7 +298,7 @@ db.once('open', function () {
     app.get('/jobsPostedByUser/:id', function (req, res) {
         let id = String(req.params.id);
 
-        Job.find({ "userId": id, "hired_user_id" : {$eq: null} }, function (err, obj) {
+        Job.find({ "userId": id, "hired_user_id": { $eq: null } }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
@@ -308,7 +309,7 @@ db.once('open', function () {
     app.get('/getJobsHiredByEmp/:id', function (req, res) {
         let id = String(req.params.id);
 
-        Job.find({ "userId": id, "hired_user_id" : {$ne: null} }, function (err, obj) {
+        Job.find({ "userId": id, "hired_user_id": { $ne: null } }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
@@ -317,6 +318,7 @@ db.once('open', function () {
 
     // Candidates by Post Id
     app.get('/getcandidatesbyjob/:id', function (req, res) {
+        console.log("000000");
         let id = String(req.params.id);
 
         Job.findOne({ _id: id }, function (err, obj) {
@@ -344,6 +346,56 @@ db.once('open', function () {
         });
     });
 
+    // app.get('/getcandidatesbyjob/:id', function (req, res) {
+    //     let id = String(req.params.id);
+
+    //     Job.findOne({ _id: id }, function (err, obj) {
+    //         if (err) return console.error(err);
+
+    //         res.json(obj);
+    //     })
+    // });
+
+    //check whether user is created or not
+    app.get('/getuser/:id', function (req, res) {
+        let userId = req.params.id||0;
+        let user = null;
+        console.log('---userId:' + userId);
+        User.find({ "userId": userId }, function (err, obj) {
+            if (err) return console.error(err);
+            user = obj;
+            res.json(obj);
+
+            console.log("*******" + JSON.parse(obj));
+        });
+
+        if (!user) {
+            var newUser = new User({
+                userId: userId,
+                userName: "",
+                profileImage: "",
+                rating: [
+                    {
+                        jobId: "",
+                        jobName: "",
+                        star: "",
+                        comment: "",
+                        type: ""
+                    }
+                ]
+            });
+
+            newUser.save(function (err) {
+                if (err) throw err;
+
+                console.log('User saved successfully!');
+
+                res.json(newUser);
+                console.log("++++++" + JSON.parse(newUser));
+            });
+            console.log("-*-*-*-*-*");
+        }
+    });
 
     //all other routes are handled by Angular
     app.get('/*', function (req, res) {
@@ -353,4 +405,6 @@ db.once('open', function () {
     app.listen(app.get('port'), function () {
         console.log('MEAN app listening on port ' + app.get('port'));
     });
+
+
 });

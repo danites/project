@@ -85,7 +85,7 @@ export class DbService {
     applyJob(job) {
         return this.http.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
     }
-    
+
     hireCandidate(job, hiredUserId, hiredUserName) {
         job["hired_user_id"] = hiredUserId;
         job["hired_userName"] = hiredUserName;
@@ -124,5 +124,11 @@ export class DbService {
 
     ratingToEmp(id) {
         return this.http.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+    }
+
+    getUserById(userId) {
+        console.log("ner ogch bn: "+userId);
+        // return this.http.get(this.dbport + '/getcandidatesbyjob/' + userId).map(res => res.json());
+        return this.http.get(this.dbport + '/getuser/' + 12345, this.options).map(res => res.json());
     }
 }

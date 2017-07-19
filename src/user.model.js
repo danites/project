@@ -3,18 +3,18 @@ var mongoose = require('mongoose');
 var userSchema = mongoose.Schema({
     userId: Number,
     userName: String,
-    profileImage: Blob,
+    profileImage: String,
     rating: [
             {
-                idRating: Schema.ObjectId, 
                 jobId: String,
-                start: Number,
+                jobName: String,
+                star: Number,
                 comment: String,
-                type: integer
+                type: Number
             }
     ]
 });
 
-var User = mongoose.model('user', userSchema);
+var Users = mongoose.model('users', userSchema);
 
-module.exports = User;
+module.exports = Users;
