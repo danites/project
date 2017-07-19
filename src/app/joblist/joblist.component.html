@@ -50,6 +50,7 @@
       <thead class="thead-default">
         <tr>
           <th></th>
+          <th>Posted by</th>
           <th>Name</th>
           <th>Category</th>
           <th>Preferred Date</th>
@@ -66,6 +67,7 @@
       <tbody *ngIf="!isEditing">
         <tr *ngFor="let job of jobs; let i = index">
           <td>{{i+1}}.</td>
+          <td>{{job.userName}}</td>
           <td>{{job.name}}</td>
           <td>{{job.category}}</td>
           <td>{{job.preferred_date}}</td>

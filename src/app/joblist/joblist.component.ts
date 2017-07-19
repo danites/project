@@ -38,8 +38,23 @@ export class JoblistComponent implements OnInit {
   }
 
   getJobs() {
-    this.jobService.getJobs().subscribe(
-      data => this.jobs = data,
+    this.jobService.getJobstoday().subscribe(
+      data => {
+        this.jobs = [];
+        data.forEach(element => {
+          let flag = false;
+          element.candidates.forEach(candidate => {
+            if(candidate.userId==this.myId)
+              {
+                flag = true;
+              }
+          });
+          if(!flag)
+            this.jobs.push(element);
+
+        });
+
+      },
       error => console.log(error),
       () => this.isLoading = false
     );
@@ -88,6 +103,7 @@ export class JoblistComponent implements OnInit {
     this.jobService.applyJob(job).subscribe(
       res => {
         this.sendInfoMsg("Applied for job successfully.", "success");
+        window.location.href = 'http://localhost:4200/joblist';
       },
       error => console.log(error)
     );

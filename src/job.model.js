@@ -2,6 +2,7 @@ var mongoose = require('mongoose');
 
 var jobSchema = mongoose.Schema({
     userId: String,
+    userName: String,
     name: String,
     description: String,
     category: String,

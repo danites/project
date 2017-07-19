@@ -100,7 +100,7 @@ db.once('open', function () {
 
     // app.get('/jobstoday', authCheck,function(req, res) {
     app.get('/jobstoday', function (req, res) {
-        Job.find({ "preferred_date": { "$gte": Date.now() } }, function (err, docs) {
+        Job.find({ "preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null} }, function (err, docs) {
             if (err) return console.error(err);
 
             res.json(docs);
