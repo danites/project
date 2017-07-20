@@ -12,7 +12,7 @@ import { AuthService } from '../auth/auth.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-  private infoMsg = { body: "", type: "info" };
+
   private subscription: Subscription;
   id: string;
   image:string;
@@ -26,15 +26,6 @@ export class ProfileComponent implements OnInit {
     this.id = localStorage['uniqueUser_token'];
     
   }
-  uploadImage() {
-    this.dbService.uploadImage().subscribe(
-      res => {
-        this.sendInfoMsg("Image successfully uploaded.", "success");
-        window.location.href = 'http://localhost:4200/joblist';
-      },
-      error => console.log(error)
-    );
-  }
 
   ngOnDestroy() {
 
@@ -43,9 +34,5 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
   }
-  sendInfoMsg(body, type, time = 3000) {
-    this.infoMsg.body = body;
-    this.infoMsg.type = type;
-    window.setTimeout(() => this.infoMsg.body = "", time);
-  }
+
 }
