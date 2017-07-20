@@ -34,6 +34,7 @@ export class GetcandidatesComponent implements OnInit {
   }
 
   hireCandidate(userId, hiredUserName) {
+    console.log("Hire Candidate button clicked");
     this.jobService.hireCandidate(this.job, userId, hiredUserName).subscribe(
       res => {
 

@@ -315,11 +315,13 @@ db.once('open', function () {
         })
     });
 
+
     // Hired Jobs by Employer
     app.get('/getJobsHiredByEmp/:id', function (req, res) {
         let id = String(req.params.id);
-
-        Job.find({ "userId": id, "hired_user_id" : {$ne: null} }, function (err, obj) {
+        console.log('getJobsHiredByEmp param:'+id);
+        // 
+        Job.find({"userId": id, "hired_user_id" : {$ne: null} }, function (err, obj) {
             if (err) return console.error(err);
 
             res.json(obj);
