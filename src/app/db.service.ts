@@ -76,7 +76,8 @@ export class DbService {
     getJobsHiredByEmp() {
         var userId = localStorage['uniqueUser_token'];
         // return this.authhttp.get(this.dbport + '/getJobsHiredByEmp/' + userId, this.options).map(res => res.json());
-        return this.authhttp.get(`${environment.api.baseUrl}getJobsHiredByEmp/` + userId,this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/getJobsHiredByEmp/` + userId,this.options).map(res => res.json());
+
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
