@@ -14,7 +14,6 @@ export class AppComponent implements OnInit {
 
   constructor(public auth: AuthService,private jobService: DbService) {
     auth.handleAuthentication();
-    // this.userToken = localStorage['uniqueUser_token'];
     this.userName = localStorage['name'];
 
   }
@@ -33,12 +32,7 @@ export class AppComponent implements OnInit {
       //Check and creeate user;
 
       this.jobService.checkAndCreateUser(localStorage.getItem['name'], localStorage.getItem['uniqueUser_token']);
-      // .subscribe(
-      //   res => {
-      //     console.log('userCreated successfully');
-      //   },
-      //   error => console.log(error)
-      // );    
+
   }
 
 }

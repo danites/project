@@ -25,8 +25,7 @@ export class JobaddComponent implements OnInit {
   private hourly_fee = new FormControl("", Validators.required);
   private preferred_date = new FormControl("", Validators.required);
   private location = new FormControl("", Validators.required);
-  // private longtitude = new FormControl("", Validators.required);
-  // private latitude = new FormControl("", Validators.required);
+
 
   private infoMsg = { body: "", type: "info" };
 
@@ -60,13 +59,23 @@ export class JobaddComponent implements OnInit {
 
   addJob() {
     var job = this.addJobForm.value;
-    // console.log("job"+JSON.stringify(job));
-    // console.log("job"+JSON.stringify(job["location"]["longtitude"]));
-    // console.log("job"+JSON.stringify(job["location"]["latitude"]));
-   // job["location"] = [-94.968,44.0166];
-    job["location"] = [job["location"]["longtitude"],job["location"]["latitude"]];
-    // job["location"] =null;
 
+    job["location"] = [job["location"]["longtitude"],job["location"]["latitude"]];
+    console.log('longtitude:'+job["location"][0]);
+    if(!job["location"] || !job["location"][0] || job["location"][0]>180 || job["location"][0]<-180) {
+        this.sendInfoMsg("Not on planet earth.", "fail");
+        console.log('Not on planet earth');
+        return null;
+        //this.router.navigate(['/']); //We need to redirect to unauthorized
+        //return "Unathorized user";
+    }
+    if(!job["location"] || !job["location"][0] || job["location"][1]>180 || job["location"][1]<-180) {
+        this.sendInfoMsg("Not on planet earth.", "fail");
+        console.log('Not on planet earth');
+        return null;
+        //this.router.navigate(['/']); //We need to redirect to unauthorized
+        //return "Unathorized user";
+    }
     this.jobService.addJob(job).subscribe(
       res => {
         var newJob = res.json();

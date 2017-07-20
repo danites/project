@@ -1,3 +1,10 @@
+<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+  <strong>Message:</strong> {{infoMsg.body}}
+</div>
+
 <!-- ADD JOB -->
 <div class="card" *ngIf="!isEditing">
   <form class="" [formGroup]="addJobForm" (ngSubmit)="addJob()">
