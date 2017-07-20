@@ -113,23 +113,29 @@ export class JoblistComponent implements OnInit {
     var job = this.searchJobForm.value;
     var category = job["s_category"];
     var hourly_fee = job["s_min_fee"];
-    // console.log('category:' +category);
-    // console.log('hourly_fee:' +hourly_fee);
-    // job["location"] =null;s_category
+
     this.jobService.searchJob(category, hourly_fee).subscribe
       (
-      data => this.jobs = data,
-      error => console.log(error),
-      () => this.isLoading = false
-      );
-    // (
-    //     (data: any) => {
-    //         //console.log(data);
-    //         this.jobs = data;
-    //     },
-    //   error => console.log(error),
-    //   () => this.isLoading = false    
-    // );
+            data => {
+              this.jobs = [];
+              data.forEach(element => {
+                let flag = false;
+                element.candidates.forEach(candidate => {
+                  if(candidate.userId==this.myId)
+                    {
+                      flag = true;
+                    }
+                });
+                if(!flag)
+                  this.jobs.push(element);
+
+              });
+
+            },
+            error => console.log(error),
+            () => this.isLoading = false
+          );
+
   }
 
 

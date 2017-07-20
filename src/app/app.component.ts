@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from './auth/auth.service';
+import { DbService } from './db.service';
 
 @Component({
   selector: 'app-root',
@@ -11,7 +12,7 @@ export class AppComponent implements OnInit {
   userToken: string;
   userName: string;
 
-  constructor(public auth: AuthService) {
+  constructor(public auth: AuthService,private jobService: DbService) {
     auth.handleAuthentication();
     // this.userToken = localStorage['uniqueUser_token'];
     this.userName = localStorage['name'];
@@ -29,7 +30,15 @@ export class AppComponent implements OnInit {
           localStorage.setItem('locationLat', JSON.stringify(data.coords.latitude));
         });
       }
+      //Check and creeate user;
 
+      this.jobService.checkAndCreateUser(localStorage.getItem['name'], localStorage.getItem['uniqueUser_token']);
+      // .subscribe(
+      //   res => {
+      //     console.log('userCreated successfully');
+      //   },
+      //   error => console.log(error)
+      // );    
   }
 
 }

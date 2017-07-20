@@ -23,7 +23,7 @@ import { GetcandidatesComponent } from './getcandidates/getcandidates.component'
 import { RateuserComponent } from './rateuser/rateuser.component';
 import { RateseekerComponent } from './rateseeker/rateseeker.component';
 import { AuthConfig, AuthHttp } from 'angular2-jwt';
-import { WindowRef } from './WindowRef.service';
+import { MiddleService } from './Mid.service';
 // import {enableProdMode} from '@angular/core';
 // enableProdMode();
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
@@ -56,7 +56,7 @@ export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   ],
   providers: [AuthService,DbService,
       AuthGuard,
-      WindowRef,
+      MiddleService,
         {
           provide: AuthHttp,
           useFactory: authHttpServiceFactory,

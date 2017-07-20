@@ -66,6 +66,8 @@ export class AuthService {
     localStorage.setItem('id_token', authResult.idToken);
     localStorage.setItem('expires_at', expiresAt);
     localStorage.setItem('profile', JSON.stringify(profile));
+    // localStorage.setItem('image', authResult['idTokenPayload']['picture']);
+    // console.log(authResult['idTokenPayload']['picture'])
   }
 
   public logout(): void {
