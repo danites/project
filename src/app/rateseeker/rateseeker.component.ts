@@ -37,17 +37,13 @@ export class RateseekerComponent implements OnInit {
         this.job = data;
         this.myComment = data.ratingToSeeker || '';
         this.myRating = data.commentToSeeker || '';
-        // ratingToEmp:Number,
-        // commentToEmp:String,
-        // ratingToSeeker:Number,
-        // commentToSeeker:String    
+
       },
       error => console.log(error)
     );
   }
 
   rateNow(comment, rating) {
-    // console.log("My2 comment:"+ccc);
     if(!comment || !rating || comment.length==0)
       {
         this.sendInfoMsg("Please fill all required fields.", "fail");

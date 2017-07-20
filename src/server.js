@@ -87,8 +87,6 @@ db.once('open', function () {
 
 
     // select all Sorted by pref Date
-
-    // app.get('/jobs', authCheck,function(req, res) {
     app.get('/jobs', function (req, res) {
         Job.find({}, function (err, docs) {
             if (err) return console.error(err);
@@ -98,8 +96,6 @@ db.once('open', function () {
     });
 
     // select all Sorted by pref Date, only from today to future
-
-    // app.get('/jobstoday', authCheck,function(req, res) {
     app.get('/jobstoday', function (req, res) {
       
         Job.find({ "preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null} }, function (err, docs) {
@@ -111,20 +107,7 @@ db.once('open', function () {
             .limit(10);;
     });
 
-    // // select all Sorted by pref Date, limit 10
-    // app.get('/jobslimit10', function(req, res) {
-    //     console.log('get op:'+req);
-    //     Job.find({}, function(err, docs) {
-    //         if(err) return console.error(err);
-    //         res.json(docs);
-    //     })
-    //     .sort({ preferred_date:1 })
-    //     .limit(10);
-    // });
-
     // select all Sorted by pref Date, limit 10, only from today to future
-
-    // app.get('/jobstodaylimit10', authCheck,function(req, res) {
     app.get('/jobstodaylimit10', function (req, res) {
         console.log('get op:' + req);
         Job.find({ "preferred_date": { "$gte": Date.now() } }, function (err, docs) {
@@ -169,7 +152,6 @@ db.once('open', function () {
 
     // create
     // app.post('/job',authCheck, function(req, res) {
-
     app.post('/jobadd', function (req, res) {
         var obj = new Job(req.body);
 
@@ -211,7 +193,6 @@ db.once('open', function () {
     });
 
     // Search filter
-
     // app.get('/jobsearch',authCheck, function(req, res) {
     app.get('/jobsearch', function (req, res) {
 
@@ -380,7 +361,6 @@ db.once('open', function () {
     });
 
     // delete by id
-    // app.delete('/job/:id',authCheck, function(req, res) {
     app.delete('/job/:id', function (req, res) {
         Job.findOneAndRemove({ _id: req.params.id }, function (err) {
             if (err) return console.error(err);

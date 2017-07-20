@@ -4,8 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { Subscription } from "rxjs/Rx";
 import { DbService } from '../db.service';
 import { AuthService } from '../auth/auth.service';
-//import { routing } from '../app.routes';
-//import { Routes } from '../AppRoutes';
+
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
