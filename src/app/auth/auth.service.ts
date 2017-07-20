@@ -58,7 +58,6 @@ export class AuthService {
   private setSession(authResult,profile): void {
     // Set the time that the access token will expire at
     const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-
     localStorage.setItem('name', authResult['idTokenPayload']['name']);
     localStorage.setItem('uniqueUser_token', authResult['idTokenPayload']['sub']);
     localStorage.setItem('access_token', authResult.accessToken);

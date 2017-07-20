@@ -61,7 +61,21 @@ export class JobaddComponent implements OnInit {
     var job = this.addJobForm.value;
 
     job["location"] = [job["location"]["longtitude"],job["location"]["latitude"]];
-
+    console.log('longtitude:'+job["location"][0]);
+    if(!job["location"] || !job["location"][0] || job["location"][0]>180 || job["location"][0]<-180) {
+        this.sendInfoMsg("Not on planet earth.", "fail");
+        console.log('Not on planet earth');
+        return null;
+        //this.router.navigate(['/']); //We need to redirect to unauthorized
+        //return "Unathorized user";
+    }
+    if(!job["location"] || !job["location"][0] || job["location"][1]>180 || job["location"][1]<-180) {
+        this.sendInfoMsg("Not on planet earth.", "fail");
+        console.log('Not on planet earth');
+        return null;
+        //this.router.navigate(['/']); //We need to redirect to unauthorized
+        //return "Unathorized user";
+    }
     this.jobService.addJob(job).subscribe(
       res => {
         var newJob = res.json();

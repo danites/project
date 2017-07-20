@@ -93,18 +93,18 @@ export class DbService {
             //return "Unathorized user";
         }
         // console.log('longtitude:'+job["location"][0]);
-        // if(job["location"][0]>180 || job["location"][0]<-180) {
-        //     console.log('Not on planet earth');
-        //     return null;
-        //     //this.router.navigate(['/']); //We need to redirect to unauthorized
-        //     //return "Unathorized user";
-        // }
-        // if(job["location"][1]>180 || job["location"][1]<-180) {
-        //     console.log('Not on planet earth');
-        //     return null;
-        //     //this.router.navigate(['/']); //We need to redirect to unauthorized
-        //     //return "Unathorized user";
-        // }
+        // // if(job["location"][0]>180 || job["location"][0]<-180) {
+        // //     console.log('Not on planet earth');
+        // //     return null;
+        // //     //this.router.navigate(['/']); //We need to redirect to unauthorized
+        // //     //return "Unathorized user";
+        // // }
+        // // if(job["location"][1]>180 || job["location"][1]<-180) {
+        // //     console.log('Not on planet earth');
+        // //     return null;
+        // //     //this.router.navigate(['/']); //We need to redirect to unauthorized
+        // //     //return "Unathorized user";
+        // // }
         job["userId"] = userId;
         job["userName"] = userName;
         // console.log("job DBService"+JSON.stringify(job));
