@@ -36,7 +36,7 @@ export class DbService {
     getJobstoday() {
         
         //return this.authhttp.get(this.dbport + '/jobstoday').map(res => res.json());
-        return this.authhttp.get(`${environment.api.baseUrl}/jobstoday`).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobstodaynearlimit10`, this.options).map(res => res.json());
     }
 
     getJobstodaylimit10() {
@@ -198,11 +198,9 @@ export class DbService {
 
    //create User
     checkAndCreateUser(name, uniqueUser_token) {
-        console.log('Inside checkAndCreateUser');
 
         this.searchUser(uniqueUser_token).subscribe(
         res => {
-            console.log("Result of search function:"+res);
                 if(!res){
                     this.createUser(name, uniqueUser_token).subscribe(
                     res => {
@@ -226,14 +224,12 @@ export class DbService {
         //console.log('dbservice:'+category + ', '  +hourly_fee)
         // let params = new URLSearchParams();
         let param = "/usersearch";
-        console.log('Inside searchUser:'+`${environment.api.baseUrl}` + param);
   
         return this.authhttp.get(`${environment.api.baseUrl}` + param, this.options).map(res => res.json());
 
     }
 
     createUser(name, uniqueUser_token) {
-        console.log('Inside createUser db Service');
         var userId = localStorage['uniqueUser_token'];
         var userName = localStorage['name'];
 
