@@ -169,9 +169,10 @@ db.once('open', function () {
     // app.post('/job',authCheck, function(req, res) {
     app.post('/job', function (req, res) {
         var obj = new Job(req.body);
-        console.log('save op:' + req);
+        //console.log('save op:' + req);
         //console.log('save op2:'+JSON.parse(obj));
-        console.log('save op2:' + JSON.stringify(obj));
+        //console.log('save op2:' + JSON.stringify(obj));
+        obj['preferred_date'] = Date.now();
         obj.save(function (err, obj) {
             if (err) return console.error(err);
             res.status(200).json(obj);
