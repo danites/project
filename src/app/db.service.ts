@@ -34,42 +34,49 @@ export class DbService {
     }
 
     getJobstoday() {
-        //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.authhttp.get(this.dbport + '/jobstoday').map(res => res.json());
+        console.log(`${environment.api.baseUrl}/jobstoday`);
+        //return this.authhttp.get(this.dbport + '/jobstoday').map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobstoday`).map(res => res.json());
     }
 
     getJobstodaylimit10() {
         //return this.http.get('/jobs'); //.map(res => res.json())
-        return this.authhttp.get(this.dbport + '/jobstodaylimit10').map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/jobstodaylimit10').map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobstodaylimit10`).map(res => res.json());
     }
 
     getJobstodaynearlimit10() {
         //return this.http.get('/jobs'); //.map(res => res.json())
 
-        return this.authhttp.get(this.dbport + '/jobstodaynearlimit10').map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/jobstodaynearlimit10').map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobstodaynearlimit10`).map(res => res.json());
     }
 
     getAppliedJobsByUser() {
         var userId = localStorage['uniqueUser_token'];
-        return this.authhttp.get(this.dbport + '/jobsByUser/' + userId, this.options).map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/jobsByUser/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobsByUser/` + userId,this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobsHiredOfSeeker() {
         var userId = localStorage['uniqueUser_token'];
-        return this.authhttp.get(this.dbport + '/getJobsHiredOfSeeker/' + userId, this.options).map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/getJobsHiredOfSeeker/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/getJobsHiredOfSeeker/` + userId,this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getPostedJobsByUser() {
         var userId = localStorage['uniqueUser_token'];
-        return this.authhttp.get(this.dbport + '/jobsPostedByUser/' + userId, this.options).map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/jobsPostedByUser/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/jobsPostedByUser/` + userId,this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
     getJobsHiredByEmp() {
         var userId = localStorage['uniqueUser_token'];
-        return this.authhttp.get(this.dbport + '/getJobsHiredByEmp/' + userId, this.options).map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/getJobsHiredByEmp/' + userId, this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}getJobsHiredByEmp/` + userId,this.options).map(res => res.json());
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
@@ -98,27 +105,35 @@ export class DbService {
         // }
         job["userId"] = userId;
         job["userName"] = userName;
-        return this.authhttp.post(this.dbport + "/job", JSON.stringify(job), this.options);
+        // console.log("job DBService"+JSON.stringify(job));
+        // console.log(`${environment.api.baseUrl}/jobadd`);
+
+        // return this.authhttp.post(this.dbport + "/job", JSON.stringify(job), this.options);
+        return this.authhttp.post(`${environment.api.baseUrl}/jobadd`, JSON.stringify(job), this.options);
     }
 
     editJob(job) {
-        return this.authhttp.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
+        // return this.authhttp.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(`${environment.api.baseUrl}/job/` + job._id, JSON.stringify(job),this.options);
     }
 
     getJobById(id) {
        // console.log('getJobById:'+id);
-        return this.authhttp.get(this.dbport + "/job/" + id, this.options).map(res => res.json());
+        // return this.authhttp.get(this.dbport + "/job/" + id, this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/job/` + id,this.options).map(res => res.json());
     }
 
 
     applyJob(job) {
-        return this.authhttp.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
+        // return this.authhttp.put(this.dbport + "/jobapply/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(`${environment.api.baseUrl}/jobapply/` + job._id, JSON.stringify(job),this.options);
     }
     
     hireCandidate(job, hiredUserId, hiredUserName) {
         job["hired_user_id"] = hiredUserId;
         job["hired_userName"] = hiredUserName;
-        return this.authhttp.put(this.dbport + "/hireCandidate/" + job._id, JSON.stringify(job), this.options);
+        // return this.authhttp.put(this.dbport + "/hireCandidate/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(`${environment.api.baseUrl}/hireCandidate/` + job._id, JSON.stringify(job),this.options);
     }
 
     searchJob(category, hourly_fee) {
@@ -138,17 +153,19 @@ export class DbService {
         //return this.http.put(this.dbport+"/search/"+job._id, JSON.stringify(job), this.options);
         //return this.http.get(this.dbport+"/jobsearch/",  { search: params });
 
-        return this.authhttp.get(this.dbport + param, this.options).map(res => res.json());
-        // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
+        // return this.authhttp.get(this.dbport + param, this.options).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}` + param, this.options).map(res => res.json());
 
     }
 
     deleteJob(job) {
-        return this.authhttp.delete(this.dbport + "/job/" + job._id);
+        // return this.authhttp.delete(this.dbport + "/job/" + job._id);
+        return this.authhttp.delete(`${environment.api.baseUrl}/job/` + job._id);
     }
 
     getCandidatesByJob(id) {
-        return this.authhttp.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+        // return this.authhttp.get(this.dbport + '/getcandidatesbyjob/' + id).map(res => res.json());
+        return this.authhttp.get(`${environment.api.baseUrl}/getcandidatesbyjob/` + id).map(res => res.json());
     }
 
     rateNow(job,comment,rating, flag) {
@@ -169,6 +186,6 @@ export class DbService {
                 }
                // console.log("rateing:"+JSON.stringify(job));
             }
-        return this.authhttp.put(this.dbport + "/job/" + job._id, JSON.stringify(job), this.options);
+        return this.authhttp.put(`${environment.api.baseUrl}/job/` + job._id, JSON.stringify(job),this.options);
     }
 }
