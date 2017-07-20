@@ -107,7 +107,8 @@ db.once('open', function () {
 
             res.json(docs);
         })
-            .sort({ preferred_date: 1 });
+            .sort({ preferred_date: 1 })
+            .limit(10);;
     });
 
     // // select all Sorted by pref Date, limit 10
@@ -138,16 +139,16 @@ db.once('open', function () {
     app.get('/jobstodaynearlimit10', function (req, res) {
         var coords = [];
         //console.log(req.headers);
-        coords[0] = req.headers.longitude || 0;
-        coords[1] = req.headers.latitude || 0;
+        coords[0] = req.get('longtitude') || 0;
+        coords[1] = req.get('latitude') || 0;
         maxDistance = 10;
-        console.log("coords:" + coords[0] + ' ' + coords[1]);
+        console.log("coords jobstodaynearlimit10:" + coords[0] + ' ' + coords[1]);
         //Job.find({"preferred_date": {"$gte": Date.now()}}, function(err, docs) {
         Job.find({
             location: {
                 $near: coords,
                 //$maxDistance: maxDistance
-            }
+            },"preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null} 
         }, function (err, docs) {
             if (err) return console.error(err);
             res.json(docs);
@@ -218,51 +219,75 @@ db.once('open', function () {
         console.log("Query is:" + query.category);
         var searchTerm = {"preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null}};
         if (query.category) {
-            searchTerm['category'] = query.category;
+            searchTerm['category'] = {'$regex':query.category};
         }
 
         maxDistance = 10;
-        // searchTerm['location.long']=query.locationlong;
-
-        // searchTerm['location.long']=query.locationlat;
 
         if (query.hourly_fee) {
             searchTerm['hourly_fee'] = { "$gte": query.hourly_fee };
         }
 
-        console.log(searchTerm);
 
         var coords = [];
-        if (query.longtitude && query.latitude) {
-            coords[0] = query.longtitude || 0;
-            coords[1] = query.latitude || 0;
-
-        }
-        //
+        var coords = [];
+        coords[0] = req.get('longtitude') || 0;
+        coords[1] = req.get('latitude') || 0;
+        
+        console.log("jobsearch Coords:" + coords[0] + ' ' + coords[1]);
+        
         if(query.category && query.hourly_fee){
             console.log('2 conditions');
-            return Job.find({category:  query.category,hourly_fee:  { "$gte": query.hourly_fee }}, function (err, docs) {
+            return Job.find({            
+                location: {
+                    $near: coords,
+                    //$maxDistance: maxDistance
+                },
+                category: {'$regex':query.category, '$options' : 'i'}, hourly_fee:  { "$gte": query.hourly_fee }}, function (err, docs) {
                 if (err) return console.error(err);
                 res.json(docs);
             })
-            .sort({ preferred_date: 1 });
+            .sort({ preferred_date: 1 })
+            .limit(10);
         }
         else {
             console.log('1 condition');
-            return Job.find(searchTerm, function (err, docs) {
-                if (err) return console.error(err);
-                res.json(docs);
-            })
-                // .then(() => {
-                // return User.findById(req.params._id);
-                // })        
-                .sort({ preferred_date: 1 });
-        }
+            if (query.category) {
+                return Job.find({                
+                        location: {
+                            $near: coords,
+                            //$maxDistance: maxDistance
+                        },
+                        category: {'$regex':query.category, '$options' : 'i'},
+                        preferred_date: { "$gte": Date.now() },"hired_user_id": {$eq : null}
+                        }, function (err, docs) {
+                        if (err) return console.error(err);
+                        res.json(docs);
+                    })
+                        .sort({ preferred_date: 1 })
+                        .limit(10);;
+                }
+
+            else {
+                return Job.find({                
+                        location: {
+                            $near: coords,
+                            //$maxDistance: maxDistance
+                        },
+                        hourly_fee:  { "$gte": query.hourly_fee },
+                        preferred_date: { "$gte": Date.now() },"hired_user_id": {$eq : null}
+                        }, function (err, docs) {
+                        if (err) return console.error(err);
+                        res.json(docs);
+                    })
+                        .sort({ preferred_date: 1 })
+                        .limit(10);;
+                }
+            }
+
     });
 
     // update by id
-
-    // app.put('/job/:id',authCheck, function(req, res) {
     app.put('/job/:id', function (req, res) {
         Job.findOneAndUpdate({ _id: req.params.id }, req.body, function (err) {
             if (err) return console.error(err);
