@@ -100,6 +100,7 @@ db.once('open', function () {
 
     // app.get('/jobstoday', authCheck,function(req, res) {
     app.get('/jobstoday', function (req, res) {
+        console.log('getting in jobstodayGGGGGGGGGGG');
         Job.find({ "preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null} }, function (err, docs) {
             if (err) return console.error(err);
 
@@ -165,14 +166,14 @@ db.once('open', function () {
     });
 
     // create
-
     // app.post('/job',authCheck, function(req, res) {
-    app.post('/job', function (req, res) {
+
+    app.post('/jobadd', function (req, res) {
         var obj = new Job(req.body);
         //console.log('save op:' + req);
         //console.log('save op2:'+JSON.parse(obj));
         //console.log('save op2:' + JSON.stringify(obj));
-        obj['preferred_date'] = Date.now();
+        console.log("jobAdd Server 22"+JSON.stringify(obj));
         obj.save(function (err, obj) {
             if (err) return console.error(err);
             res.status(200).json(obj);
