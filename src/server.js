@@ -219,11 +219,7 @@ db.once('open', function () {
 
         var query = req.query;
         console.log("Query is:" + query.category);
-        var searchTerm = {};
-        if (query.category) {
-            searchTerm['category'] = query.category;
-        }
-
+        var searchTerm = {"preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null}};
         if (query.category) {
             searchTerm['category'] = query.category;
         }
@@ -245,20 +241,26 @@ db.once('open', function () {
             coords[1] = query.latitude || 0;
 
         }
-
-        Job.find(searchTerm, function (err, docs) {
-            if (err) return console.error(err);
-            res.json(docs);
-        })
-            // .then(() => {
-            // return User.findById(req.params._id);
-            // })        
+        //
+        if(query.category && query.hourly_fee){
+            console.log('2 conditions');
+            return Job.find({category:  query.category,hourly_fee:  { "$gte": query.hourly_fee }}, function (err, docs) {
+                if (err) return console.error(err);
+                res.json(docs);
+            })
             .sort({ preferred_date: 1 });
-        // Job.find({}, function(err, docs) {
-        //     if(err) return console.error(err);
-        //     res.json(docs);
-        // })
-        // .sort({ preferred_date:1 });          
+        }
+        else {
+            console.log('1 condition');
+            return Job.find(searchTerm, function (err, docs) {
+                if (err) return console.error(err);
+                res.json(docs);
+            })
+                // .then(() => {
+                // return User.findById(req.params._id);
+                // })        
+                .sort({ preferred_date: 1 });
+        }
     });
 
     // update by id

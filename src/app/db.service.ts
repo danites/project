@@ -143,10 +143,14 @@ export class DbService {
         let param = "/jobsearch?";
         if (category) {
             param += ("category=" + category);
+            if (hourly_fee) {
+                param += ("&hourly_fee=" + hourly_fee);
+            }
         }
-
-        if (hourly_fee) {
-            param += ("hourly_fee=" + hourly_fee);
+        else{
+            if (hourly_fee) {
+                param += ("hourly_fee=" + hourly_fee);
+            }
         }
         // params.set('hourly_fee', hourly_fee);
         // params.set('longtitude',localStorage.getItem('locationLong'));
