@@ -1,16 +1,15 @@
 var mongoose = require('mongoose');
 
 var userSchema = mongoose.Schema({
-    userId: Number,
+    userId: String,
     userName: String,
-    profileImage: Blob,
+    profileImage: { data: Buffer, contentType: String },
     rating: [
-            {
-                idRating: Schema.ObjectId, 
+            { 
                 jobId: String,
                 start: Number,
                 comment: String,
-                type: integer
+                type: Number
             }
     ]
 });

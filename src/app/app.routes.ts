@@ -15,6 +15,7 @@ const MY_ROUTES: Routes = [
   { path: 'jobadd', component: JobaddComponent,canActivate:[AuthGuard] },
   { path: 'jobseeker', component: JobseekerComponent,canActivate:[AuthGuard] },
   { path: 'jobemployer', component: JobemployerComponent,canActivate:[AuthGuard] },
+  { path: 'profile', component: ProfileComponent,canActivate:[AuthGuard] },  
   { path: '**', redirectTo: '' }
 ];
 export const routing = RouterModule.forRoot(MY_ROUTES);

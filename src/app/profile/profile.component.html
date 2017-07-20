@@ -1,3 +1,16 @@
-<p>
-  profile works!
-</p>
+<div [hidden]="!infoMsg.body" class="alert alert-{{infoMsg.type}} alert-dismissible" role="alert">
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+  <strong>Message:</strong> {{infoMsg.body}}
+</div>
+
+<div class="profile">
+
+    <img src="{{image}}" alt="employer" >
+    <button class="btn btn-sm btn-primary" (click)="uploadImage()"><i class="fa fa-trash"></i>Upload Image</button>
+      
+</div>
+
+<p><label class="control-label" >Name:{{  userName}}</label></p>
+<p><label class="control-label" >Id:{{id}}</label></p>

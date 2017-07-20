@@ -79,6 +79,7 @@ mongoose.Promise = global.Promise;
 
 // Models
 var Job = require('./job.model.js');
+var User = require('./user.model.js');
 
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
@@ -100,7 +101,7 @@ db.once('open', function () {
 
     // app.get('/jobstoday', authCheck,function(req, res) {
     app.get('/jobstoday', function (req, res) {
-        console.log('getting in jobstodayGGGGGGGGGGG');
+      
         Job.find({ "preferred_date": { "$gte": Date.now() },"hired_user_id": {$eq : null} }, function (err, docs) {
             if (err) return console.error(err);
 
@@ -170,9 +171,7 @@ db.once('open', function () {
 
     app.post('/jobadd', function (req, res) {
         var obj = new Job(req.body);
-        //console.log('save op:' + req);
-        //console.log('save op2:'+JSON.parse(obj));
-        //console.log('save op2:' + JSON.stringify(obj));
+
         console.log("jobAdd Server 22"+JSON.stringify(obj));
         obj.save(function (err, obj) {
             if (err) return console.error(err);
@@ -180,9 +179,7 @@ db.once('open', function () {
         });
     });
 
-    // find by id
-
-    // app.get('/job/:id',authCheck,function(req, res) {
+    // find Job by id
     app.get('/job/:id', function (req, res) {
         Job.findOne({ _id: req.params.id }, function (err, obj) {
             if (err) return console.error(err);
@@ -364,6 +361,30 @@ db.once('open', function () {
             if (err) return console.error(err);
             res.sendStatus(200);
         });
+    });
+
+
+    app.post('/useradd', function (req, res) {
+
+        console.log('useradd in Server');
+        var obj = new User(req.body);
+
+        console.log("userAdd Server:"+JSON.stringify(obj));
+        obj.save(function (err, obj) {
+            if (err) return console.error(err);
+            res.status(200).json(obj);
+        });
+    });
+
+    // find User by id
+    app.get('/usersearch', function (req, res) {
+        let param = req.get('sender_userId');
+        console.log('user search param:'+param);
+        // req.get('sender_userId');
+        User.findOne({ userId: param }, function (err, obj) {
+            if (err) return console.error(err);
+            res.json(obj);
+        })
     });
 
 

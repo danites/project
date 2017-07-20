@@ -34,7 +34,7 @@ export class DbService {
     }
 
     getJobstoday() {
-        console.log(`${environment.api.baseUrl}/jobstoday`);
+        
         //return this.authhttp.get(this.dbport + '/jobstoday').map(res => res.json());
         return this.authhttp.get(`${environment.api.baseUrl}/jobstoday`).map(res => res.json());
     }
@@ -81,6 +81,7 @@ export class DbService {
         // return this.http.get(this.dbport+'/jobstodaynearlimit10',this.options).map(res => res.json());
     }
 
+    //create
     addJob(job) {
         var userId = localStorage['uniqueUser_token'];
         var userName = localStorage['name'];
@@ -193,4 +194,61 @@ export class DbService {
             }
         return this.authhttp.put(`${environment.api.baseUrl}/job/` + job._id, JSON.stringify(job),this.options);
     }
+
+
+   //create User
+    checkAndCreateUser(name, uniqueUser_token) {
+        console.log('Inside checkAndCreateUser');
+
+        this.searchUser(uniqueUser_token).subscribe(
+        res => {
+            console.log("Result of search function:"+res);
+                if(!res){
+                    this.createUser(name, uniqueUser_token).subscribe(
+                    res => {
+                        console.log("Result of createUser function:"+res);
+                        
+                    },
+                        error => console.log(error)
+                    );
+                  }
+            
+            
+        },
+            error => console.log(error)
+        );
+        //this.searchUser(uniqueUser_token);
+        //return this.authhttp.get(`${environment.api.baseUrl}/getcandidatesbyjob/` + 1).map(res => res.json());
+        //return this.authhttp.post(`${environment.api.baseUrl}/jobadd`, JSON.stringify(job), this.options);
+    }
+    searchUser(uniqueUser_token) {
+        
+        //console.log('dbservice:'+category + ', '  +hourly_fee)
+        // let params = new URLSearchParams();
+        let param = "/usersearch";
+        console.log('Inside searchUser:'+`${environment.api.baseUrl}` + param);
+  
+        return this.authhttp.get(`${environment.api.baseUrl}` + param, this.options).map(res => res.json());
+
+    }
+
+    createUser(name, uniqueUser_token) {
+        console.log('Inside createUser db Service');
+        var userId = localStorage['uniqueUser_token'];
+        var userName = localStorage['name'];
+
+        if (!userId) {
+            console.log('Unauthorized user');
+            return null;
+
+        }
+        let user ={};
+        user["userId"] = userId;
+        user["userName"] = userName;
+
+
+        return this.authhttp.post(`${environment.api.baseUrl}/useradd`, JSON.stringify(user), this.options);
+
+    }    
+
 }
