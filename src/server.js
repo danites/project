@@ -224,7 +224,9 @@ db.once('open', function () {
                     $near: coords,
                     //$maxDistance: maxDistance
                 },
-                category: {'$regex':query.category, '$options' : 'i'}, hourly_fee:  { "$gte": query.hourly_fee }}, function (err, docs) {
+                category: {'$regex':query.category, '$options' : 'i'}, hourly_fee:  { "$gte": query.hourly_fee },
+                preferred_date: { "$gte": Date.now() },"hired_user_id": {$eq : null}
+                }, function (err, docs) {
                 if (err) return console.error(err);
                 res.json(docs);
             })
@@ -249,7 +251,7 @@ db.once('open', function () {
                         .limit(10);;
                 }
 
-            else {
+            else if(query.hourly_fee) {
                 return Job.find({                
                         location: {
                             $near: coords,
@@ -264,8 +266,22 @@ db.once('open', function () {
                         .sort({ preferred_date: 1 })
                         .limit(10);;
                 }
-            }
 
+            else {
+                return Job.find({                
+                        location: {
+                            $near: coords,
+                            //$maxDistance: maxDistance
+                        },
+                        preferred_date: { "$gte": Date.now() },"hired_user_id": {$eq : null}
+                        }, function (err, docs) {
+                        if (err) return console.error(err);
+                        res.json(docs);
+                    })
+                        .sort({ preferred_date: 1 })
+                        .limit(10);;
+                }
+            }
     });
 
     // update by id
